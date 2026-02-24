@@ -1,15 +1,16 @@
-# 🎓 PrepaCertifs - Environnements de Préparation aux Certifications IT
+# 🎓 PrepaCertifs - Environnements de Préparation aux Certifs IT
 
 <div align="center">
 
 ![Certifications](https://img.shields.io/badge/Certifications-IT-blue?style=for-the-badge)
+![Certifications obtenues](https://img.shields.io/badge/Certifications_Obtenues-2-brightgreen?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Actif-success?style=for-the-badge)
 ![AI Powered](https://img.shields.io/badge/Powered%20by-Claude%20Sonnet-purple?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **Ressources complètes et structurées pour préparer vos certifications IT**
 
-[🔗 LinkedIn](https://www.linkedin.com/in/maximechenaud/) • [📧 Contact](https://www.linkedin.com/in/maximechenaud/) • [⭐ Star ce projet](https://github.com/SpyKeeR/PrepaCertifs)
+[🔗 LinkedIn](https://www.linkedin.com/in/maximechenaud/) • [⭐ Star ce projet](https://github.com/SpyKeeR/PrepaCertifs)
 
 </div>
 
@@ -144,7 +145,7 @@ LPI/Linux-Essentials/
 ### 🐧 LPI LPIC-1 (101-500 & 102-500)
 
 <details>
-<summary><b>📚 Linux Administrator - En préparation (ressources partielles)</b></summary>
+<summary><b>✅ Linux Administrator - Certification obtenue - Préparation complète (100%)</b></summary>
 
 #### 📊 Vue d'ensemble
 Certification en **2 examens** :
@@ -156,22 +157,21 @@ Certification en **2 examens** :
 #### 📂 Structure
 ```
 LPI/LPIC-1/
-├── Objectives.md                     # Objectifs complets
+├── Objectives.md                     # Objectifs complets ✅
 ├── 101-500/                          # Examen 101
 │   ├── LPI-Learning-Material-101-500-fr.md
-│   ├── Kodekloud-Course-Notes/       # Notes de cours
-│   ├── Revision/                     # En construction
-│   └── AnkiCards/                    # 4 decks disponibles
+│   ├── Revision/                     # Notes, Fiches, QCM ✅
+│   └── AnkiCards/                    # 4 decks Anki ✅
 └── 102-500/                          # Examen 102
     ├── LPI-Learning-Material-102-500-fr.md
-    ├── Revision/                     # En construction
-    └── Anki Cards/                   # 6 decks disponibles
+    ├── Revision/                     # Notes, Fiches, QCM ✅
+    └── Anki Cards/                   # 6 decks Anki ✅
 ```
 
 #### 📈 État
-**Matériel de base disponible** | **Notes Kodekloud complètes (101)** | **10 decks Anki**
+**Préparation complète** | **Tous les sujets couverts** | **10 decks Anki** | **✅ Certification obtenue**
 
-**En cours de structuration** : Notes, Fiches et QCM en cours de création
+**Ressources prêtes** : Matériel officiel LPI, Notes de révision, Fiches synthétiques et QCM disponibles
 
 [➡️ Accéder à LPIC-1](./LPI/LPIC-1/)
 
@@ -315,11 +315,11 @@ Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes ins
 | Certification | Status | Modules | Notes | Fiches | QCM | Anki |
 |--------------|--------|---------|-------|--------|-----|------|
 | **CCNA 200-301** | 🔄 En cours | 7/47 | ✅ | ✅ | 190Q | ⬜ |
-| **Linux Essentials** | ✅ Complet | 5/5 | ✅ | ✅ | 100+Q | ✅ (3) |
-| **LPIC-1 (101)** | 📚 Partiel | - | ✅ | ⬜ | ⬜ | ✅ (4) |
-| **LPIC-1 (102)** | 📚 Partiel | - | ✅ | ⬜ | ⬜ | ✅ (6) |
+| **Linux Essentials** | ✅ Obtenue | 5/5 | ✅ | ✅ | 100+Q | ✅ (3) |
+| **LPIC-1 (101)** | ✅ Obtenue | Tous | ✅ | ✅ | ✅ | ✅ (4) |
+| **LPIC-1 (102)** | ✅ Obtenue | Tous | ✅ | ✅ | ✅ | ✅ (6) |
 
-**Total** : **290+ questions QCM** • **13 decks Anki** • **3 certifications couvertes**
+**Total** : **290+ questions QCM** • **13 decks Anki** • **2 certifications obtenues** • **1 en cours**
 
 </div>
 
@@ -327,21 +327,20 @@ Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes ins
 
 ## 🗓️ Roadmap
 
-### ✅ Déjà disponible
-- [x] Linux Essentials - Préparation complète (100%)
-- [x] CCNA - Modules 1-7 ITN (Notes + Fiches + QCM)
-- [x] LPIC-1 - Matériel de base et Anki Cards
+### ✅ Certifications obtenues
+- [x] **Linux Essentials 010-160** - Certification obtenue ✅
+- [x] **LPIC-1 (101-500)** - Certification obtenue ✅
+- [x] **LPIC-1 (102-500)** - Certification obtenue ✅
+- [x] Préparations complètes disponibles (Notes, Fiches, QCM, Anki)
 
 ### 🔄 En cours
+- [ ] **CCNA 200-301** - Modules 1-7 ITN complétés (15%)
 - [ ] CCNA - Modules 8-17 ITN (en cours de création)
-- [ ] LPIC-1 - Structuration Notes et QCM
 
 ### 📅 À venir
 - [ ] CCNA - Cours SRWE (16 modules)
 - [ ] CCNA - Cours ENSA (14 modules)
 - [ ] CCNA - Examens blancs complets
-- [ ] LPIC-1 - Préparation complète 101-500
-- [ ] LPIC-1 - Préparation complète 102-500
 - [ ] Nouvelles certifications selon progression
 
 ---
@@ -356,10 +355,11 @@ Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes ins
 [![GitHub](https://img.shields.io/badge/GitHub-SpyKeeR-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SpyKeeR)
 
 **N'hésitez pas à me contacter pour :**
-- 💬 Échanger sur les certifications IT
-- 🤝 Proposer des collaborations
-- 🐛 Signaler des problèmes
-- 💡 Partager vos suggestions
+
+💬 Échanger sur les certifications IT  
+🤝 Proposer des collaborations  
+🐛 Signaler des problèmes  
+💡 Partager vos suggestions
 
 </div>
 
@@ -372,10 +372,11 @@ Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes ins
 **MIT License** - Libre d'utilisation et de modification
 
 Ce projet est open-source et gratuit. Vous pouvez :
-- ✅ Utiliser le contenu pour votre préparation personnelle
-- ✅ Partager avec vos collègues et étudiants
-- ✅ Modifier et adapter selon vos besoins
-- ✅ Contribuer avec vos propres améliorations
+
+✅ Utiliser le contenu pour votre préparation personnelle  
+✅ Partager avec vos collègues et étudiants  
+✅ Modifier et adapter selon vos besoins  
+✅ Contribuer avec vos propres améliorations
 
 **Si ces ressources vous aident, pensez à ⭐ star le projet !**
 
