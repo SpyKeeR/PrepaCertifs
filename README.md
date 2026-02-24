@@ -1,4 +1,4 @@
-# 🎓 PrepaCertifs - Environnements de Prépa aux Certifs IT
+# 🎓 Environnements de Préparation aux Certifs IT
 
 <div align="center">
 
