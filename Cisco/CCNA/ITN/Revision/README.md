@@ -120,21 +120,22 @@ Dossier `Mock-Exams/` - Examens blancs :
 | 06 | Couche liaison de données | ✅ | ✅ | ✅ | ✅ |
 | 07 | Commutation Ethernet | ✅ | ✅ | ✅ | ✅ |
 | **CP2** | **Checkpoint Modules 4-7** | ✅ | - | - | ✅ |
-| 08 | Couche réseau | ⬜ | ⬜ | ⬜ | ⬜ |
-| 09 | Résolution d'adresse | ⬜ | ⬜ | ⬜ | ⬜ |
-| 10 | Configuration routeur | ⬜ | ⬜ | ⬜ | ⬜ |
-| **CP3** | **Checkpoint Modules 8-10** | ⬜ | - | - | ⬜ |
-| 11 | Adressage IPv4 | ⬜ | ⬜ | ⬜ | ⬜ |
-| 12 | Adressage IPv6 | ⬜ | ⬜ | ⬜ | ⬜ |
-| 13 | ICMP | ⬜ | ⬜ | ⬜ | ⬜ |
-| **CP4** | **Checkpoint Modules 11-13** | ⬜ | - | - | ⬜ |
-| 14 | Couche transport | ⬜ | ⬜ | ⬜ | ⬜ |
-| 15 | Couche application | ⬜ | ⬜ | ⬜ | ⬜ |
-| **CP5** | **Checkpoint Modules 14-15** | ⬜ | - | - | ⬜ |
-| 16 | Sécurité réseau | ⬜ | ⬜ | ⬜ | ⬜ |
-| 17 | Conception réseau | ⬜ | ⬜ | ⬜ | ⬜ |
-| **CP6** | **Checkpoint Modules 16-17** | ⬜ | - | - | ⬜ |
-| **Final** | **Examen blanc final** | ⬜ | - | - | ⬜ |
+| 08 | Couche réseau | ✅ | ✅ | ✅ | ✅ |
+| 09 | Résolution d'adresse | ✅ | ✅ | ✅ | ✅ |
+| 10 | Configuration routeur | ✅ | ✅ | ✅ | ✅ |
+| **CP3** | **Checkpoint Modules 8-10** | ✅ | - | - | ✅ |
+| 11 | Adressage IPv4 | ✅ | ✅ | ✅ | ✅ |
+| 12 | Adressage IPv6 | ✅ | ✅ | ✅ | ✅ |
+| 13 | ICMP | ✅ | ✅ | ✅ | ✅ |
+| **CP4** | **Checkpoint Modules 11-13** | ✅ | - | - | ✅ |
+| 14 | Couche transport | ✅ | ✅ | ✅ | ✅ |
+| 15 | Couche application | ✅ | ✅ | ✅ | ✅ |
+| **CP5** | **Checkpoint Modules 14-15** | ✅ | - | - | ✅ |
+| 16 | Sécurité réseau | ✅ | ✅ | ✅ | ✅ |
+| 17 | Conception réseau | ✅ | ✅ | ✅ | ✅ |
+| **CP6** | **Checkpoint Modules 16-17** | ✅ | - | - | ✅ |
+| **ME-P** | **Mock Exam Practice** | ✅ | - | - | ✅ |
+| **ME-F** | **Mock Exam Final** | ✅ | - | - | ✅ |
 
 ---
 
