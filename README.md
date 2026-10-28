@@ -1,18 +1,37 @@
 <div align="center">
-    
+
 # 🎓 Environnements de Préparation aux Certifs IT
 
-![Certifications](https://img.shields.io/badge/Certifications-IT-blue?style=for-the-badge)
-![Certifications obtenues](https://img.shields.io/badge/Certifications_Obtenues-2-brightgreen?style=for-the-badge)
+![Cisco](https://img.shields.io/badge/Cisco-CCNA_·_CyberOps_·_CCNP-1BA0D7?style=for-the-badge&logo=cisco&logoColor=white)
+![Nutanix](https://img.shields.io/badge/Nutanix-NCA_·_NCP--NS-024DA1?style=for-the-badge&logo=nutanix&logoColor=white)
+![LPI](https://img.shields.io/badge/LPI-Linux_Essentials_·_LPIC--1-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+
+![Certifications obtenues](https://img.shields.io/badge/Certifications_Obtenues-5-brightgreen?style=for-the-badge)
+![QCM](https://img.shields.io/badge/Questions_QCM-2500%2B-orange?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-Actif-success?style=for-the-badge)
-![AI Powered](https://img.shields.io/badge/Powered%20by-Claude%20Sonnet-purple?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/Powered%20by-Claude-purple?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
 **Ressources complètes et structurées pour préparer vos certifications IT**
 
-[🔗 LinkedIn](https://www.linkedin.com/in/maximechenaud/) • [⭐ Star ce projet](https://github.com/SpyKeeR/PrepaCertifs)
+[🔗 LinkedIn](https://www.linkedin.com/in/maximechenaud/) • [⭐ Star ce projet](https://github.com/SpyKeeR/PrepaCertifs) • [🐛 Signaler une erreur](https://github.com/SpyKeeR/PrepaCertifs/issues)
 
 </div>
+
+---
+
+## 📑 Sommaire
+
+- [📖 À propos](#-à-propos)
+- [🗂️ Certifications disponibles](#️-certifications-disponibles)
+  - [🌐 Cisco](#-cisco)
+  - [☁️ Nutanix](#️-nutanix)
+  - [🐧 LPI](#-lpi)
+- [🚀 Comment utiliser ce dépôt](#-comment-utiliser-ce-dépôt)
+- [📊 Statistiques globales](#-statistiques-globales)
+- [🗓️ Roadmap](#️-roadmap)
+- [🤝 Contribution](#-contribution)
+- [📜 Licence](#-licence)
 
 ---
 
@@ -25,27 +44,35 @@ Ce dépôt centralise des **environnements de préparation complets** pour diff�
 ### 🎯 Objectif
 
 Fournir des ressources de qualité, gratuites et accessibles pour aider la communauté à préparer efficacement leurs certifications professionnelles en :
-- **Réseaux** (Cisco CCNA)
-- **Linux** (LPI Linux Essentials, LPIC-1)
-- Et bientôt d'autres certifications...
+
+| Domaine | Certifications |
+|---------|----------------|
+| 🌐 **Réseaux** | Cisco CCNA 200-301, CCNP ENCOR 350-401 |
+| 🛡️ **Cybersécurité** | Cisco CCNA Cybersecurity 200-201 |
+| ☁️ **Hyperconvergence & Cloud** | Nutanix NCA 7.5, NCP-NS 7.5 (Flow) |
+| 🐧 **Linux** | LPI Linux Essentials, LPIC-1 |
 
 ### ✨ Points forts
 
 - 📚 **Contenu structuré** : Organisation claire et logique par modules/sujets
 - 📝 **Notes détaillées** : Cours complets et fiches de révision synthétiques
+- ⚡ **Fiches express** : L'essentiel d'un examen lisible en 30-45 minutes
 - ❓ **QCM personnalisés** : Questions d'entraînement avec corrections détaillées
+- 🖥️ **Entraîneurs interactifs** : QCM et examens blancs en HTML, à ouvrir dans un navigateur
 - 🃏 **Cartes Anki** : Flashcards pour révision espacée
-- 🤖 **IA-Assisted** : Généré avec Claude Sonnet pour une qualité optimale
+- 🤖 **IA-Assisted** : Généré avec Claude (Anthropic) pour une qualité optimale
 - 🔄 **Régulièrement mis à jour** : Nouveaux contenus et améliorations continues
 
 ---
 
 ## 🗂️ Certifications disponibles
 
-### 🌐 Cisco CCNA 200-301
+## 🌐 Cisco
+
+### 📡 Cisco CCNA 200-301
 
 <details>
-<summary><b>📦 Cisco Certified Network Associate - En cours (15% complété)</b></summary>
+<summary><b>🚧 Cisco Certified Network Associate - Espace en reconstruction - Examen prévu prochainement</b></summary>
 
 #### 📊 Vue d'ensemble
 - **Code :** 200-301
@@ -54,47 +81,182 @@ Fournir des ressources de qualité, gratuites et accessibles pour aider la commu
 - **Score requis :** 825/1000
 - **Validité :** 3 ans
 
-#### 📂 Structure
-Programme divisé en **3 cours NetAcad** (47 modules au total) :
-- **ITN** - Introduction to Networks (17 modules) - 7/17 ✅
-- **SRWE** - Switching, Routing, Wireless Essentials (16 modules) - À venir ⬜
-- **ENSA** - Enterprise Networking, Security, Automation (14 modules) - À venir ⬜
+> [!IMPORTANT]
+> L'ancien environnement, calqué sur les cours NetAcad (ITN / SRWE / ENSA), était ancien et n'était plus maintenu : il a été retiré.
+> Un nouvel environnement, centré sur **les attentes concrètes de l'examen 200-301**, sera publié prochainement.
 
-#### 📋 Ressources disponibles
-```
-Cisco/CCNA/
-├── NetacadProgramme.md           # Programme complet
-├── README.md                     # Guide principal CCNA
-├── ITN/Revision/                 # Cours Introduction to Networks
-│   ├── Notes/                    # 7 modules complétés
-│   ├── Fiches/                   # 7 fiches de révision
-│   └── QCM/                      # 9 QCM (190 questions)
-├── SRWE/Revision/                # À venir
-└── ENSA/Revision/                # À venir
-```
-
-#### 🎯 Sujets couverts (ITN - Modules 1-7)
-- ✅ Fondamentaux des réseaux et topologies
-- ✅ Configuration de base Cisco IOS
-- ✅ Modèles OSI et TCP/IP
-- ✅ Couche physique et câblage
-- ✅ Systèmes numériques (binaire, hexadécimal)
-- ✅ Couche liaison de données
-- ✅ Commutation Ethernet et tables MAC
-
-#### 📈 Progression
-**190 questions de QCM créées** | **7/47 modules complétés** | **41% du cours ITN**
+#### 📋 Contenu prévu
+- 📄 **Fiche de révision express** organisée par domaine du blueprint officiel
+- 🖥️ **Entraîneur interactif** orienté examen (questions par domaine, examen blanc)
 
 [➡️ Accéder à CCNA](./Cisco/CCNA/)
 
 </details>
 
+### 🛡️ Cisco CCNA Cybersecurity 200-201
+
+<details>
+<summary><b>✅ CCNA Cybersecurity (CCNACBR v1.2, ex-CyberOps Associate) - Certification obtenue - Préparation complète</b></summary>
+
+#### 📊 Vue d'ensemble
+- **Code :** 200-201 CCNACBR v1.2 (ex-CBROPS)
+- **Durée :** 120 minutes
+- **Questions :** ~95 à 105 questions (anglais uniquement)
+- **Score :** Échelle 300-1000 (seuil non publié)
+- **Particularité :** ⚠️ Aucun retour arrière possible pendant l'examen
+
+#### 📂 Domaines du blueprint
+| Domaine | Poids |
+|---------|-------|
+| 1. Security Concepts | 20 % |
+| 2. Security Monitoring | 25 % |
+| 3. Host-Based Analysis | 20 % |
+| 4. Network Intrusion Analysis | 20 % |
+| 5. Security Policies and Procedures | 15 % |
+
+#### 📋 Ressources disponibles
+```
+Cisco/CCNA Cybersecurity/
+├── CCNA-Cybersecurity_200-201_Fiche-revision-express.md   # Fiche express ✅
+└── Prépa 200-201 CCNA Cybersecurity.html                  # Entraîneur interactif ✅
+```
+
+- 📄 **Fiche express** : terminologie exacte attendue, paires qui se confondent, listes à connaître par cœur, pièges de nommage, stratégie Jour J
+- 🖥️ **Entraîneur HTML** : 270+ questions, fiche intégrée, entraînement sur mesure par domaine et examen blanc
+
+#### 📈 État
+**Préparation complète** | **270+ questions** | **✅ Certification obtenue**
+
+[➡️ Accéder à CCNA Cybersecurity](./Cisco/CCNA%20Cybersecurity/)
+
+</details>
+
+### 🏢 Cisco CCNP ENCOR 350-401
+
+<details>
+<summary><b>📘 CCNP Enterprise Core (ENCOR v8) - Préparation complète (29/29 modules)</b></summary>
+
+#### 📊 Vue d'ensemble
+- **Code :** 350-401 ENCOR
+- **Cours :** CCNP Enterprise Core v8 (NetAcad)
+- **Contenu :** 29 modules + checkpoints + 2 examens finaux
+
+#### 📂 Domaines couverts
+| Domaine | Poids |
+|---------|-------|
+| Architecture | 15 % |
+| Virtualisation | 10 % |
+| Infrastructure | 30 % |
+| Services réseau | 10 % |
+| Sécurité | 20 % |
+| Automatisation | 15 % |
+
+#### 📋 Ressources disponibles
+```
+Cisco/CCNP/v8/ENCOR/
+├── NetAcadProgrammeCCNP-ENCOR.md     # Programme complet
+├── ENCOR_Chapter_1..29.md            # Contenu de cours par chapitre
+└── Revision/
+    ├── Notes/                        # 29 modules ✅
+    ├── Fiches/                       # Fiches de révision ✅
+    ├── QCM/                          # QCM par module ✅
+    ├── Checkpoint-Exams/             # 11 checkpoints ✅
+    └── Mock-Exams/                   # Practice Exam + Final Exam ✅
+```
+
+#### 🎯 Sujets couverts
+- ✅ Architecture d'entreprise, SD-Access, SD-WAN, VXLAN
+- ✅ Redondance L2 (STP, EtherChannel), EIGRP, OSPF, BGP
+- ✅ Services IP, VPN, Multicast, QoS
+- ✅ Wireless (architecture, authentification, troubleshooting)
+- ✅ Network Assurance, contrôle d'accès, sécurité des équipements
+- ✅ Virtualisation, programmabilité et automatisation (REST, Ansible, Python)
+
+#### 📈 État
+**1 100+ questions (QCM + checkpoints)** | **29/29 modules** | **Préparation complète**
+
+[➡️ Accéder à CCNP ENCOR](./Cisco/CCNP/v8/ENCOR/)
+
+</details>
+
 ---
+
+## ☁️ Nutanix
+
+### 🧱 Nutanix Certified Associate (NCA) 7.5
+
+<details>
+<summary><b>✅ NCA 7.5 - Certification obtenue - Préparation complète</b></summary>
+
+#### 📊 Vue d'ensemble
+- **Questions :** 50 (choix unique et choix multiples)
+- **Durée :** 90 minutes
+- **Score requis :** 3000 (échelle 1000-6000)
+- **Versions testées :** AOS 7.5 · AHV 11.0 · Prism Central pc.7.5
+
+#### 📋 Ressources disponibles
+```
+Nutanix/NCA 7.5/
+├── NCA-7.5_Fiche-revision-express.md   # Fiche express ✅
+└── NCA-7.5_QCM-entraineur.html         # Entraîneur QCM interactif ✅
+```
+
+#### 🎯 Sujets couverts
+- ✅ Architecture NCI (CVM, DSF, Prism Element vs Prism Central)
+- ✅ Résilience, tolérance de panne et stockage
+- ✅ VMs et réseau AHV
+- ✅ Portfolio produits et licences
+- ✅ Configuration du cluster, maintenance matérielle et logicielle (LCM)
+- ✅ Santé, alertes, performance et support
+
+#### 📈 État
+**Top 30 des faits à connaître** | **130+ questions dans l'entraîneur** | **✅ Certification obtenue**
+
+[➡️ Accéder à NCA 7.5](./Nutanix/NCA%207.5/)
+
+</details>
+
+### 🔐 Nutanix Certified Professional - Network & Security (NCP-NS) 7.5
+
+<details>
+<summary><b>✅ NCP-NS 7.5 (Nutanix Flow) - Certification obtenue - Fiche de révision express</b></summary>
+
+#### 📊 Vue d'ensemble
+- **Questions :** 75 (choix multiple et réponses multiples)
+- **Durée :** 120 minutes
+- **Score requis :** 3000 (échelle 1000-6000)
+- **Versions testées :** Flow Virtual Networking 6.0 · Flow Network Security 5.2 · Prism Central 7.3
+
+#### 📂 Sections du blueprint
+1. Configure Flow Virtual Networking (FVN)
+2. Configure Flow Network Security (FNS)
+3. Troubleshoot FVN
+4. Troubleshoot FNS
+5. Deploy & Upgrade
+
+#### 📋 Ressources disponibles
+```
+Nutanix/NCP-NS 7.5/
+└── NCP-NS_7.5_Fiche_Revision_Express.md   # Fiche express ✅
+```
+
+- 📄 **Fiche express** : FVN (SDN overlay, VPC, NAT, VPN, BGP) vs FNS (micro-segmentation, firewall distribué stateful), les 12 pièges qui rapportent des points, stratégie de dernière ligne droite
+
+#### 📈 État
+**5 sections du blueprint couvertes** | **12 pièges classiques** | **✅ Certification obtenue**
+
+[➡️ Accéder à NCP-NS 7.5](./Nutanix/NCP-NS%207.5/)
+
+</details>
+
+---
+
+## 🐧 LPI
 
 ### 🐧 LPI Linux Essentials 010-160
 
 <details>
-<summary><b>✅ Linux Essentials Certificate - Préparation complète (100%)</b></summary>
+<summary><b>✅ Linux Essentials Certificate - Certification obtenue - Préparation complète (100%)</b></summary>
 
 #### 📊 Vue d'ensemble
 - **Code :** 010-160
@@ -134,13 +296,11 @@ LPI/Linux-Essentials/
 - ✅ Archivage et compression (tar, gzip, bzip2)
 
 #### 📈 État
-**Préparation complète** | **Tous les Topics couverts** | **100% prêt pour l'examen**
+**Préparation complète** | **Tous les Topics couverts** | **✅ Certification obtenue**
 
 [➡️ Accéder à Linux Essentials](./LPI/Linux-Essentials/)
 
 </details>
-
----
 
 ### 🐧 LPI LPIC-1 (101-500 & 102-500)
 
@@ -157,21 +317,20 @@ Certification en **2 examens** :
 #### 📂 Structure
 ```
 LPI/LPIC-1/
-├── Objectives.md                     # Objectifs complets ✅
 ├── 101-500/                          # Examen 101
-│   ├── LPI-Learning-Material-101-500-fr.md
-│   ├── Revision/                     # Notes, Fiches, QCM ✅
-│   └── AnkiCards/                    # 4 decks Anki ✅
+│   ├── LPI-Learning-Material-101-500-fr.pdf
+│   ├── Revision/                     # Notes, Fiches, QCM, Mock Exam ✅
+│   └── AnkiCards/                    # 5 decks Anki ✅
 └── 102-500/                          # Examen 102
-    ├── LPI-Learning-Material-102-500-fr.md
-    ├── Revision/                     # Notes, Fiches, QCM ✅
-    └── Anki Cards/                   # 6 decks Anki ✅
+    ├── LPI-Learning-Material-102-500-fr.pdf
+    ├── Revision/                     # Notes, Fiches, QCM, Mock Exam ✅
+    └── Anki Cards/                   # 7 decks Anki ✅
 ```
 
 #### 📈 État
-**Préparation complète** | **Tous les sujets couverts** | **10 decks Anki** | **✅ Certification obtenue**
+**Préparation complète** | **880+ questions QCM** | **12 decks Anki** | **✅ Certification obtenue**
 
-**Ressources prêtes** : Matériel officiel LPI, Notes de révision, Fiches synthétiques et QCM disponibles
+**Ressources prêtes** : Matériel officiel LPI, Notes de révision, Fiches synthétiques, QCM et examens blancs disponibles
 
 [➡️ Accéder à LPIC-1](./LPI/LPIC-1/)
 
@@ -185,34 +344,43 @@ LPI/LPIC-1/
 
 Naviguez dans le dossier correspondant à la certification visée :
 ```bash
-cd Cisco/CCNA/        # Pour CCNA
-cd LPI/Linux-Essentials/   # Pour Linux Essentials
-cd LPI/LPIC-1/        # Pour LPIC-1
+cd Cisco/CCNA/                    # CCNA 200-301
+cd "Cisco/CCNA Cybersecurity/"    # CCNA Cybersecurity 200-201
+cd Cisco/CCNP/v8/ENCOR/           # CCNP ENCOR 350-401
+cd "Nutanix/NCA 7.5/"             # Nutanix NCA 7.5
+cd "Nutanix/NCP-NS 7.5/"          # Nutanix NCP-NS 7.5
+cd LPI/Linux-Essentials/          # Linux Essentials
+cd LPI/LPIC-1/                    # LPIC-1
 ```
 
-### 2️⃣ Consulter le README spécifique
+### 2️⃣ Consulter le README ou la fiche express
 
-Chaque certification dispose de son propre **README.md** avec :
+Chaque environnement complet dispose de son propre **README.md** avec :
 - 📋 Détails de l'examen
 - 🗺️ Plan d'étude recommandé
 - 📚 Ressources disponibles
 - ✅ État de préparation
 
+Les environnements plus récents (CCNA Cybersecurity, Nutanix) sont construits autour d'une **fiche de révision express** qui fait office de point d'entrée.
+
 ### 3️⃣ Suivre la méthodologie proposée
 
-Chaque README contient une **méthodologie d'étude éprouvée** :
 1. Phase d'apprentissage (cours complets)
 2. Phase de révision (fiches synthétiques)
 3. Phase de validation (QCM et tests)
 4. Phase de mémorisation (Anki)
-5. Préparation finale (simulations)
+5. Préparation finale (simulations et examens blancs)
 
 ### 4️⃣ Pratiquer avec les ressources
 
 - 📝 **Notes détaillées** : Comprendre en profondeur
 - 📄 **Fiches de révision** : Synthèses express
 - ❓ **QCM** : Tester ses connaissances
+- 🖥️ **Entraîneurs HTML** : S'entraîner en conditions d'examen
 - 🃏 **Anki Cards** : Mémorisation à long terme
+
+> [!TIP]
+> GitHub affiche le code source des fichiers `.html` au lieu de la page. Pour utiliser les **entraîneurs interactifs**, téléchargez le fichier (bouton *Download raw file*) ou clonez le dépôt, puis ouvrez-le dans votre navigateur. Aucune installation n'est nécessaire.
 
 ---
 
@@ -245,10 +413,54 @@ Certification/
 │   ├── QCM-Module-02.md
 │   └── QCM-Checkpoint.md
 │
+├── Mock-Exams/                  # 🎯 Examens blancs
+│
 └── Anki-Cards/                  # 🃏 Flashcards
     ├── Deck-1.apkg
     └── Deck-2.apkg
 ```
+
+---
+
+## 📊 Statistiques globales
+
+<div align="center">
+
+| Certification | Status | Modules | Notes | Fiches | QCM | Entraîneur HTML | Anki |
+|--------------|--------|---------|:-----:|:------:|-----|:---------------:|------|
+| **CCNA 200-301** | 🚧 Reconstruction | - | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| **CCNA Cybersecurity 200-201** | ✅ Obtenue | 5 domaines | ⬜ | ✅ Express | 270+Q | ✅ | ⬜ |
+| **CCNP ENCOR 350-401** | 📘 Préparation | 29/29 | ✅ | ✅ | 1 100+Q | ⬜ | ⬜ |
+| **Nutanix NCA 7.5** | ✅ Obtenue | Tous | ⬜ | ✅ Express | 130+Q | ✅ | ⬜ |
+| **Nutanix NCP-NS 7.5** | ✅ Obtenue | 5 sections | ⬜ | ✅ Express | ⬜ | ⬜ | ⬜ |
+| **Linux Essentials** | ✅ Obtenue | 5/5 | ✅ | ✅ | 100+Q | ⬜ | ✅ (3) |
+| **LPIC-1 (101)** | ✅ Obtenue | Tous | ✅ | ✅ | 420+Q | ⬜ | ✅ (5) |
+| **LPIC-1 (102)** | ✅ Obtenue | Tous | ✅ | ✅ | 460+Q | ⬜ | ✅ (7) |
+
+**Total** : **2 500+ questions QCM** • **15 decks Anki** • **2 entraîneurs interactifs** • **7 certifications couvertes** • **5 certifications obtenues**
+
+</div>
+
+---
+
+## 🗓️ Roadmap
+
+### ✅ Certifications obtenues
+- [x] **Linux Essentials 010-160** - Certification obtenue ✅
+- [x] **LPIC-1 (101-500 & 102-500)** - Certification obtenue ✅
+- [x] **CCNA Cybersecurity 200-201** - Certification obtenue ✅
+- [x] **Nutanix NCA 7.5** - Certification obtenue ✅
+- [x] **Nutanix NCP-NS 7.5** - Certification obtenue ✅
+- [x] Préparations disponibles pour chacune (Notes, Fiches, QCM, Anki, entraîneurs HTML)
+
+### 🔄 En cours
+- [ ] **CCNA 200-301** - Passage de l'examen prévu dans les prochains jours 📅
+- [x] **CCNP ENCOR 350-401** - Préparation complète (29 modules, checkpoints, examens blancs)
+- [ ] **CCNP ENCOR 350-401** - Passage de l'examen
+
+### 📅 À venir
+- [ ] CCNA 200-301 - Nouvel environnement orienté examen (fiche express + entraîneur interactif)
+- [ ] Nouvelles certifications selon progression
 
 ---
 
@@ -258,7 +470,7 @@ Certification/
 
 Je suis **ouvert à tous les retours** pour améliorer ces ressources :
 
-- 🐛 **Erreurs détectées** : Ouvrez une issue
+- 🐛 **Erreurs détectées** : Ouvrez une [issue](https://github.com/SpyKeeR/PrepaCertifs/issues)
 - ✨ **Améliorations** : Proposez une Pull Request
 - 💬 **Questions** : Contactez-moi sur [LinkedIn](https://www.linkedin.com/in/maximechenaud/)
 - ⭐ **Ce projet vous aide ?** : N'hésitez pas à le star !
@@ -282,13 +494,13 @@ Je suis **ouvert à tous les retours** pour améliorer ces ressources :
 
 ---
 
-## 🛠️ Généré avec Claude Sonnet
+## 🛠️ Généré avec Claude
 
 <div align="center">
 
 ### 🤖 Powered by AI, Refined by Humans
 
-Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes instructions personnalisées pour garantir :
+Ce contenu est généré avec l'aide de **Claude (Anthropic)** et mes instructions personnalisées pour garantir :
 
 ✨ **Qualité** - Contenu structuré et pédagogique  
 🎯 **Précision** - Informations vérifiées et à jour  
@@ -300,48 +512,12 @@ Ce contenu est généré avec l'aide de **Claude Sonnet (Anthropic)** et mes ins
 ### Comment ça fonctionne ?
 
 1. 📥 **Input** : Programme officiel + Expérience personnelle
-2. 🤖 **Processing** : Claude Sonnet structure et enrichit
+2. 🤖 **Processing** : Claude structure et enrichit
 3. ✍️ **Review** : Révision humaine et ajustements
 4. 📤 **Output** : Ressources prêtes à l'emploi
 
-**Résultat** : Des ressources de préparation complètes, structurées et gratuites pour toute la communauté !
-
----
-
-## 📊 Statistiques globales
-
-<div align="center">
-
-| Certification | Status | Modules | Notes | Fiches | QCM | Anki |
-|--------------|--------|---------|-------|--------|-----|------|
-| **CCNA 200-301** | 🔄 En cours | 7/47 | ✅ | ✅ | 190Q | ⬜ |
-| **Linux Essentials** | ✅ Obtenue | 5/5 | ✅ | ✅ | 100+Q | ✅ (3) |
-| **LPIC-1 (101)** | ✅ Obtenue | Tous | ✅ | ✅ | ✅ | ✅ (4) |
-| **LPIC-1 (102)** | ✅ Obtenue | Tous | ✅ | ✅ | ✅ | ✅ (6) |
-
-**Total** : **290+ questions QCM** • **13 decks Anki** • **2 certifications obtenues** • **1 en cours**
-
-</div>
-
----
-
-## 🗓️ Roadmap
-
-### ✅ Certifications obtenues
-- [x] **Linux Essentials 010-160** - Certification obtenue ✅
-- [x] **LPIC-1 (101-500)** - Certification obtenue ✅
-- [x] **LPIC-1 (102-500)** - Certification obtenue ✅
-- [x] Préparations complètes disponibles (Notes, Fiches, QCM, Anki)
-
-### 🔄 En cours
-- [ ] **CCNA 200-301** - Modules 1-7 ITN complétés (15%)
-- [ ] CCNA - Modules 8-17 ITN (en cours de création)
-
-### 📅 À venir
-- [ ] CCNA - Cours SRWE (16 modules)
-- [ ] CCNA - Cours ENSA (14 modules)
-- [ ] CCNA - Examens blancs complets
-- [ ] Nouvelles certifications selon progression
+> [!NOTE]
+> Malgré la relecture, des erreurs peuvent subsister. Vérifiez toujours les informations d'examen (durée, score, versions) sur le site officiel de l'éditeur avant de vous inscrire.
 
 ---
 
@@ -386,8 +562,9 @@ Ce projet est open-source et gratuit. Vous pouvez :
 
 ## 🙏 Remerciements
 
-- **Anthropic** pour Claude Sonnet, l'IA qui rend ce projet possible
+- **Anthropic** pour Claude, l'IA qui rend ce projet possible
 - **Cisco NetAcad** pour leurs excellents cours et labs
+- **Nutanix University** pour leurs parcours de formation
 - **Linux Professional Institute** pour leurs certifications de qualité
 - **La communauté IT** pour le partage de connaissances
 - **Vous** qui utilisez ces ressources et contribuez à les améliorer !
@@ -398,8 +575,8 @@ Ce projet est open-source et gratuit. Vous pouvez :
 
 **Fait avec ❤️ et 🤖 par Maxime CHENAUD**
 
-*Dernière mise à jour : 24 février 2026*
+*Dernière mise à jour : 28 octobre 2026*
 
-[⬆ Retour en haut](#-prepacertifs---environnements-de-préparation-aux-certifications-it)
+[⬆ Retour en haut](#-environnements-de-préparation-aux-certifs-it)
 
 </div>
