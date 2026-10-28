@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NCA 7.5 — Entraîneur QCM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F3F8;
+  --card:#FFFFFF;
+  --ink:#1C1D33;
+  --muted:#5F6178;
+  --line:#D8DAE6;
+  --line-strong:#B9BCD0;
+  --accent:#4A3AD1;
+  --accent-ink:#2F2492;
+  --accent-soft:#EBE8FB;
+  --ok:#187A50;
+  --ok-soft:#E1F3EA;
+  --bad:#B93A25;
+  --bad-soft:#FBE7E2;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans","Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+main{max-width:780px;margin:0 auto;padding:28px 20px 80px}
+h1{font-size:2.1rem;font-weight:700;letter-spacing:-.015em;margin:0 0 6px;line-height:1.12}
+h2{font-size:1.2rem;font-weight:600;margin:0 0 12px}
+h3{font-size:1rem;font-weight:600;margin:18px 0 8px}
+p{margin:0 0 12px}
+.sub{color:var(--muted);margin:0 0 26px;font-size:1.02rem}
+button{font:inherit;cursor:pointer;color:inherit}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:11px 18px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-weight:600;line-height:1.2}
+.btn:hover{background:var(--accent-ink);border-color:var(--accent-ink)}
+.btn.secondary{background:transparent;color:var(--accent-ink)}
+.btn.secondary:hover{background:var(--accent-soft)}
+.btn.quiet{background:transparent;border-color:transparent;color:var(--muted);padding:8px 10px;font-weight:500}
+.btn.quiet:hover{background:var(--accent-soft);color:var(--accent-ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn:disabled:hover{background:var(--accent);border-color:var(--accent)}
+.btn.secondary:disabled:hover{background:transparent}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:8px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin-bottom:16px}
+[hidden]{display:none!important}
+
+/* setup */
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
+.mode{border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;background:var(--card);text-align:left;transition:border-color .12s,background .12s}
+.mode strong{display:block;font-size:1.05rem;margin-bottom:4px}
+.mode span{color:var(--muted);font-size:.93rem;display:block;line-height:1.4}
+.mode[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.mode[aria-pressed="true"] strong{color:var(--accent-ink)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;margin-bottom:18px}
+.check{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;cursor:pointer}
+.check:hover{background:var(--paper)}
+.check input{width:19px;height:19px;accent-color:var(--accent);margin:0}
+.check em{font-style:normal;color:var(--muted);font-size:.9rem;margin-left:auto}
+.row{display:flex;flex-wrap:wrap;gap:12px 22px;align-items:center;margin-bottom:22px}
+.row label{display:flex;align-items:center;gap:8px}
+select{font:inherit;padding:7px 10px;border-radius:8px;border:1.5px solid var(--line-strong);background:#fff;color:var(--ink)}
+.hintline{color:var(--muted);font-size:.93rem;margin-top:14px}
+kbd{font-family:inherit;font-size:.85em;border:1px solid var(--line-strong);border-bottom-width:2px;border-radius:5px;padding:1px 6px;background:#fff}
+
+/* play */
+.rail{height:5px;background:var(--line);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.rail div{height:100%;background:var(--accent);width:0;transition:width .25s}
+.topline{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:.95rem;margin-bottom:18px}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent-ink);font-weight:600;font-size:.85rem}
+.timer{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.timer.late{color:var(--bad)}
+.score{margin-left:auto;font-weight:600;font-variant-numeric:tabular-nums;color:var(--ink)}
+.qtext{font-size:1.22rem;font-weight:600;line-height:1.4;margin:0 0 6px;letter-spacing:-.005em}
+.qhelp{color:var(--muted);font-size:.93rem;margin:0 0 16px}
+.options{display:flex;flex-direction:column;gap:9px;margin:0;padding:0;list-style:none}
+.opt{display:flex;align-items:flex-start;gap:14px;width:100%;text-align:left;padding:12px 14px;border:1.5px solid var(--line);border-radius:11px;background:var(--card);transition:border-color .12s,background .12s;line-height:1.4}
+.opt:hover:not(:disabled){border-color:var(--line-strong);background:#FAFAFD}
+.opt .k{flex:none;width:28px;height:28px;border-radius:8px;border:1.5px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.9rem;color:var(--muted);margin-top:1px}
+.opt.selected{border-color:var(--accent);background:var(--accent-soft)}
+.opt.selected .k{background:var(--accent);border-color:var(--accent);color:#fff}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft)}
+.opt.correct .k{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt.missed{border-color:var(--ok);border-style:dashed}
+.opt.missed .k{border-color:var(--ok);color:var(--ok)}
+.opt:disabled{cursor:default}
+.feedback{margin-top:18px;padding:14px 16px 14px 18px;border-radius:10px;border-left:5px solid var(--ok);background:var(--ok-soft)}
+.feedback.bad{border-left-color:var(--bad);background:var(--bad-soft)}
+.feedback strong{display:block;margin-bottom:4px}
+.nav{display:flex;gap:10px;align-items:center;margin-top:20px;flex-wrap:wrap}
+.nav .spacer{flex:1}
+.grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.grid button{width:36px;height:34px;border-radius:8px;border:1.5px solid var(--line);background:#fff;font-size:.85rem;font-weight:500;color:var(--muted)}
+.grid button.done{background:var(--accent-soft);border-color:var(--accent-soft);color:var(--accent-ink)}
+.grid button.cur{border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+
+/* results */
+.big{font-size:2.6rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 4px}
+.verdict{color:var(--muted);margin-bottom:18px}
+.bars{display:flex;flex-direction:column;gap:10px;margin:8px 0 6px}
+.bar{display:grid;grid-template-columns:230px 1fr 70px;gap:12px;align-items:center;font-size:.95rem}
+.bar .track{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.bar .track div{height:100%;background:var(--accent)}
+.bar .n{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.miss{border-top:1px solid var(--line);padding:16px 0}
+.miss:last-child{padding-bottom:0}
+.miss .q{font-weight:600;margin-bottom:6px}
+.miss .a{margin:0 0 4px;font-size:.96rem}
+.miss .a.you{color:var(--bad)}
+.miss .a.good{color:var(--ok)}
+.miss .e{color:var(--muted);font-size:.95rem;margin:6px 0 0}
+@media (max-width:640px){
+  body{font-size:16px}
+  main{padding:18px 14px 60px}
+  .panel{padding:18px 16px}
+  .modes,.checks{grid-template-columns:1fr}
+  .bar{grid-template-columns:1fr;gap:4px}
+  .bar .n{text-align:left}
+  h1{font-size:1.7rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <h1>NCA 7.5 — Entraîneur QCM</h1>
+  <p class="sub">Le jour J : 50 questions, 90 minutes, réponses uniques et multiples. Ici, tu t'entraînes sur la même matière.</p>
+
+  <section id="setup" class="panel">
+    <h2>Nouvelle session</h2>
+    <div class="modes">
+      <button class="mode" data-mode="train" aria-pressed="true" type="button">
+        <strong>Entraînement</strong>
+        <span>Correction et explication après chaque question. Idéal pour apprendre vite.</span>
+      </button>
+      <button class="mode" data-mode="exam" aria-pressed="false" type="button">
+        <strong>Examen blanc</strong>
+        <span>50 questions tirées au sort, 90 minutes, correction complète à la fin.</span>
+      </button>
+    </div>
+
+    <h3>Sections à réviser</h3>
+    <div class="checks" id="sections"></div>
+
+    <div class="row">
+      <label id="countRow">Nombre de questions
+        <select id="count">
+          <option value="0">Toutes</option>
+          <option value="20">20</option>
+          <option value="40">40</option>
+          <option value="60">60</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="shufQ" checked> Mélanger les questions</label>
+      <label><input type="checkbox" id="shufO" checked> Mélanger les réponses</label>
+    </div>
+
+    <button class="btn" id="start" type="button">Commencer</button>
+    <p class="hintline">Au clavier : <kbd>1</kbd>–<kbd>5</kbd> pour choisir une réponse, <kbd>Entrée</kbd> pour valider ou passer à la suivante.</p>
+  </section>
+
+  <section id="play" class="panel" hidden>
+    <div class="rail"><div id="railFill"></div></div>
+    <div class="topline">
+      <span id="counter"></span>
+      <span class="badge" id="secBadge"></span>
+      <span class="timer" id="timer" hidden></span>
+      <span class="score" id="liveScore" hidden></span>
+    </div>
+    <p class="qtext" id="qtext"></p>
+    <p class="qhelp" id="qhelp"></p>
+    <ul class="options" id="options"></ul>
+    <div class="feedback" id="feedback" hidden></div>
+    <div class="nav">
+      <button class="btn secondary" id="prev" type="button" hidden>Précédente</button>
+      <button class="btn" id="check" type="button" hidden>Valider</button>
+      <button class="btn" id="next" type="button" hidden>Question suivante</button>
+      <span class="spacer"></span>
+      <button class="btn quiet" id="quit" type="button">Quitter la session</button>
+      <button class="btn secondary" id="finish" type="button" hidden>Terminer l'examen</button>
+    </div>
+    <div class="grid" id="grid" hidden></div>
+  </section>
+
+  <section id="result" class="panel" hidden>
+    <p class="big" id="bigScore"></p>
+    <p class="verdict" id="verdict"></p>
+    <div class="bars" id="bars"></div>
+    <div class="nav">
+      <button class="btn" id="replayWrong" type="button">Rejouer mes erreurs</button>
+      <button class="btn secondary" id="again" type="button">Nouvelle session</button>
+    </div>
+    <h3 id="missTitle"></h3>
+    <div id="misses"></div>
+  </section>
+</main>
+
+<script>
+const SECTIONS = {
+  1: "Solutions et outils Nutanix",
+  2: "Administration de la plateforme",
+  3: "Configuration et maintenance du cluster",
+  4: "Santé, supervision et support"
+};
+
+const QUESTIONS = [
+{s:1,q:"Quels hyperviseurs sont supportés par Nutanix Cloud Infrastructure (NCI) ? (3 réponses)",o:["AHV","VMware ESXi","Microsoft Hyper-V","Citrix Hypervisor (XenServer)","Proxmox VE"],a:[0,1,2],e:"AHV est l'hyperviseur natif inclus avec AOS ; ESXi et Hyper-V sont supportés, avec des fonctionnalités variables selon l'hyperviseur (matrice « Supportability of Features by Hypervisor »). XenServer et Proxmox ne le sont pas."},
+{s:1,q:"Quel composant s'exécute sur chaque nœud d'un cluster Nutanix et fournit les services de stockage AOS ?",o:["La Controller VM (CVM)","La VM Prism Central","La Witness VM","La VM Foundation"],a:[0],e:"Chaque nœud héberge une CVM qui exécute AOS, contrôle les disques locaux (passthrough) et participe au stockage distribué. PC, Witness et Foundation sont des VMs à rôle spécifique, pas présentes sur chaque nœud."},
+{s:1,q:"Quel service AOS gère le chemin de données, c'est-à-dire les lectures et écritures des VMs ?",o:["Stargate","Curator","Zookeeper","Cerebro"],a:[0],e:"Stargate est le service d'I/O de la CVM. Curator gère les tâches de fond, Zookeeper la configuration du cluster, Cerebro la réplication et la DR."},
+{s:1,q:"Quel service conserve les métadonnées du stockage distribué, répliquées entre les CVM ?",o:["Cassandra (via l'interface Medusa)","Genesis","Acropolis","Prism"],a:[0],e:"Les métadonnées sont stockées dans Cassandra, accédées via Medusa, en 3 copies (FT1) ou 5 copies (FT2). Genesis gère les services, Acropolis la couche AHV, Prism l'interface."},
+{s:1,q:"Quel est le rôle du service Curator ?",o:["Exécuter les tâches de fond du cluster : scrubbing, reconstruction des copies, ILM (tiering), équilibrage des disques","Servir l'interface web Prism","Placer les VMs sur les hôtes AHV","Stocker la configuration du cluster"],a:[0],e:"Curator fonctionne sur un modèle MapReduce pour la maintenance des données. Prism sert l'UI, Acropolis (ADS) place les VMs, Zookeeper/Zeus conserve la configuration."},
+{s:1,q:"Quelle affirmation sur Prism Element et Prism Central est correcte ?",o:["Prism Element gère un seul cluster et s'exécute sur les CVM ; Prism Central est une VM dédiée qui gère plusieurs clusters","Prism Element est nécessaire pour gérer plusieurs clusters","Prism Central s'exécute sur les CVM du cluster","Prism Central est obligatoire pour créer une VM"],a:[0],e:"PE = un cluster, hébergé par les CVM (accès via la VIP du cluster). PC = VM(s) dédiée(s), multi-clusters, avec les fonctions avancées (catégories, Flow, DR, templates, NCM). On peut créer des VMs depuis PE sans PC."},
+{s:1,q:"Sur quel port TCP accède-t-on à l'interface web Prism (Element ou Central) ?",o:["9440","443","8443","2074"],a:[0],e:"Prism écoute en HTTPS sur le port 9440. Le port 2074 est celui de NGT entre les VMs et le cluster."},
+{s:1,q:"Combien de nœuds au minimum faut-il pour activer le Replication Factor 3 (FT2) sur un cluster ?",o:["5","3","4","6"],a:[0],e:"RF3 nécessite au moins 5 nœuds (3 copies de données, 5 copies de métadonnées). Un cluster RF2 standard = 3 nœuds minimum ; l'erasure coding en RF2 = 4 nœuds minimum."},
+{s:1,q:"Quel composant est obligatoire pour un cluster à deux nœuds ?",o:["Une Witness VM hébergée sur un site tiers","Un troisième nœud storage-only","Une instance Prism Central","Foundation Central"],a:[0],e:"Le cluster 2 nœuds utilise une Witness VM (site indépendant, communication sur le port 9440) pour arbitrer en cas de perte de communication entre les deux nœuds et éviter le split-brain."},
+{s:1,q:"Comment un cluster à un seul nœud protège-t-il les données ?",o:["Avec RF2 entre les disques du nœud : il tolère la panne d'un disque, pas celle du nœud","Avec une Witness VM","Il ne protège pas les données (RF1 obligatoire)","Avec une réplication vers Prism Central"],a:[0],e:"Le cluster 1 nœud conserve deux copies de chaque donnée sur des disques différents du même nœud. Pas de Witness. Il ne peut pas être étendu par ajout de nœuds."},
+{s:1,q:"Sur quelle technologie l'hyperviseur AHV est-il basé ?",o:["KVM/QEMU, avec Open vSwitch pour le réseau","Xen","VMware ESXi","Microsoft Hyper-V"],a:[0],e:"AHV est un hyperviseur Linux basé sur KVM/QEMU, avec Open vSwitch pour le réseau virtuel. Il est inclus avec AOS sans licence supplémentaire."},
+{s:1,q:"À quoi sert Life Cycle Manager (LCM) ?",o:["Inventorier et mettre à jour les firmwares et logiciels du cluster (AOS, AHV, NCC, Foundation, firmwares)","Migrer des VMs depuis VMware vers AHV","Imager des nœuds bare-metal","Configurer la réplication entre sites"],a:[0],e:"LCM est l'outil unique de cycle de vie : inventaire, puis mises à jour orchestrées (rolling). Move migre les VMs, Foundation image les nœuds."},
+{s:1,q:"Dans un dark site (sans accès Internet), comment LCM obtient-il les mises à jour ?",o:["Via un bundle dark site hébergé sur un serveur web local, ou déposé par Direct Upload dans LCM","Automatiquement via Pulse","Via Prism Central, qui sert de proxy Internet","Ce n'est pas possible, il faut utiliser Upgrade Software"],a:[0],e:"On télécharge le LCM Dark Site Bundle (et les bundles AOS/AHV) depuis le portail, on l'héberge sur un serveur web interne dont l'URL est renseignée dans LCM, ou on l'uploade directement (Direct Upload)."},
+{s:1,q:"Quelle affirmation est vraie à propos d'un nœud storage-only ?",o:["Il exécute toujours AHV, n'héberge aucune VM utilisateur et peut rejoindre un cluster ESXi","Il exécute le même hyperviseur que le reste du cluster","Il n'a pas de CVM","Il peut héberger des VMs utilisateur si la charge est faible"],a:[0],e:"Le nœud storage-only apporte de la capacité et une CVM, tourne toujours sous AHV (même dans un cluster ESXi) et n'exécute pas de VM utilisateur. C'est le nœud compute-only qui n'a pas de CVM."},
+{s:1,q:"Que permet Multicloud Snapshot Technology (MST) ?",o:["Envoyer les recovery points de VMs vers un bucket S3 (AWS) pour les restaurer sur NC2, sans cluster cible allumé en permanence","Répliquer de façon synchrone entre deux clusters AHV","Sauvegarder les partages Nutanix Files vers Azure","Migrer des VMs vers AWS EC2"],a:[0],e:"MST réplique les snapshots vers un stockage objet S3, ce qui rend la DR vers Nutanix Cloud Clusters (NC2) sur AWS économique : le cluster cible n'est nécessaire qu'au moment de la reprise."},
+{s:1,q:"Quel produit permet de définir des règles de microsegmentation entre VMs à partir de leurs catégories ?",o:["Flow Network Security","Flow Virtual Networking","NCM Cost Governance","Nutanix Database Service"],a:[0],e:"Flow Network Security applique des politiques (Application, Isolation, Quarantine, VDI) basées sur les catégories définies dans Prism Central, avec un mode Monitor puis Apply."},
+{s:1,q:"Quel produit fournit des VPC et des réseaux overlay isolés, avec NAT, VPN et gateways, sur AHV ?",o:["Flow Virtual Networking","Flow Network Security","Network Visualizer","Nutanix Central"],a:[0],e:"Flow Virtual Networking est la couche SDN de Nutanix : VPC, sous-réseaux overlay (Geneve), Network Gateways (VPN IPsec, VTEP, BGP)."},
+{s:1,q:"Vous devez protéger une VM avec un RPO de 5 minutes, sans réplication synchrone. Quel type de réplication choisir ?",o:["NearSync (RPO de 20 secondes à 15 minutes)","Asynchrone (RPO d'une heure ou plus)","Metro Availability","Snapshots locaux uniquement"],a:[0],e:"NearSync couvre les RPO de 20 s à 15 min. L'asynchrone commence à 1 h. Le synchrone et Metro donnent un RPO de 0 mais exigent une latence très faible (≤ 5 ms) et une licence Ultimate ou l'add-on Advanced Replication."},
+{s:1,q:"Où crée-t-on les Protection Policies et les Recovery Plans de Nutanix Disaster Recovery ?",o:["Dans Prism Central","Dans Prism Element","Dans Nutanix Central","Dans Foundation Central"],a:[0],e:"Nutanix DR (ex-Leap) est piloté par Prism Central : Availability Zones, Protection Policies (RPO, rétention, cibles) et Recovery Plans (ordre de redémarrage, mapping réseau). PE ne propose que les Protection Domains historiques."},
+{s:1,q:"Qu'est-ce que Nutanix Cloud Clusters (NC2) ?",o:["Le logiciel Nutanix (AOS/AHV/Prism) déployé sur des serveurs bare-metal chez AWS ou Azure","Un service de sauvegarde SaaS","Une console de gestion de plusieurs Prism Central","Un cluster Kubernetes managé"],a:[0],e:"NC2 exécute la pile Nutanix sur des instances bare-metal AWS ou Azure avec la même expérience Prism : extension de capacité, DR, lift-and-shift."},
+{s:1,q:"Quelle est la différence entre Nutanix Central et Prism Central ?",o:["Nutanix Central est une console SaaS qui donne une vue globale de plusieurs Prism Central (on-prem et cloud) ; Prism Central est une VM qui gère plusieurs clusters","Ce sont deux noms du même produit","Nutanix Central gère un seul cluster, Prism Central plusieurs","Nutanix Central remplace la CVM"],a:[0],e:"Nutanix Central est le niveau au-dessus de Prism Central : gestion de flotte, vue unifiée, licences et marketplace pour tous les PC et NC2 d'une organisation."},
+{s:1,q:"Quel est le rôle de Nutanix Konnector ?",o:["Enregistrer automatiquement les clusters Kubernetes NKP dans Prism Central ou Nutanix Central pour en avoir la visibilité","Connecter deux virtual switches de clusters différents","Relier Prism Element à un serveur syslog","Fournir un VPN entre deux VPC"],a:[0],e:"Konnector est un service d'onboarding : les clusters NKP créés via la Marketplace ou la CLI apparaissent dans PC ou Nutanix Central (compute, stockage persistant, réseau). Rien à voir avec le réseau."},
+{s:1,q:"Quels services font partie de Nutanix Unified Storage (NUS) ? (3 réponses)",o:["Files (SMB/NFS)","Objects (S3)","Volumes (iSCSI)","Nutanix Database Service","Nutanix Move"],a:[0,1,2],e:"NUS regroupe Files, Objects, Volumes (et Data Lens pour l'analytique et la détection de ransomware). NDB est la plateforme bases de données, Move l'outil de migration."},
+{s:1,q:"Quel service fournit du provisioning, du patching, du clonage et une « Time Machine » pour PostgreSQL, Oracle, SQL Server ou MongoDB ?",o:["Nutanix Database Service (NDB, ex-Era)","Nutanix Files","NCM Self-Service","Nutanix Objects"],a:[0],e:"NDB est le DBaaS de Nutanix : automatisation du cycle de vie des bases de données avec sauvegarde et restauration à un instant donné (Time Machine)."},
+{s:1,q:"Quel composant de Nutanix Cloud Manager fournit le Capacity Runway, la détection d'anomalies et les playbooks X-Play ?",o:["NCM Intelligent Operations","NCM Self-Service","NCM Cost Governance","NCM Security Central"],a:[0],e:"Intelligent Operations (ex-Prism Pro/Ultimate) = AIOps : prévisions de capacité, anomalies par apprentissage, efficacité des VMs, automatisation X-Play, rapports."},
+{s:1,q:"Quel produit NCM permet de publier des blueprints d'applications dans une Marketplace en libre-service ?",o:["NCM Self-Service (ex-Calm)","NCM Intelligent Operations","NCM Cost Governance (ex-Beam)","Nutanix Enterprise AI"],a:[0],e:"Self-Service orchestre le déploiement d'applications (blueprints, projets, Marketplace) sur Nutanix et les clouds publics. Cost Governance gère les coûts."},
+{s:1,q:"À quoi sert Nutanix Data Services for Kubernetes (NDK) ?",o:["Protéger les applications Kubernetes : snapshots, réplication et reprise après sinistre des applications et de leurs volumes","Déployer des clusters Kubernetes","Exposer des buckets S3 aux pods","Mesurer la consommation électrique des nœuds"],a:[0],e:"NDK apporte les services de données aux applications conteneurisées sur NKP (sauvegarde, restauration, réplication, DR). NKP crée et gère les clusters eux-mêmes."},
+{s:1,q:"Quel est l'objectif de Nutanix Enterprise AI (NAI) ?",o:["Déployer, sécuriser et exposer des endpoints d'inférence de modèles (LLM) sur NKP avec GPU, par exemple via NVIDIA NIM ou Hugging Face","Analyser les logs du cluster avec de l'IA","Remplacer NCC par un assistant","Entraîner des modèles sur les métadonnées Cassandra"],a:[0],e:"NAI (ex-GPT-in-a-Box) est une couche d'inférence IA générative pour l'entreprise : catalogue de modèles, endpoints API sécurisés, exécution sur Kubernetes (NKP) avec GPU."},
+{s:1,q:"Quel outil migre des VMs depuis VMware ESXi, Hyper-V, AWS ou Azure vers AHV avec une interruption minimale ?",o:["Nutanix Move","Foundation","X-Ray","Collector"],a:[0],e:"Move est une appliance qui crée des plans de migration, pré-copie les données puis effectue le cutover, en injectant les pilotes VirtIO. Il migre aussi des partages de fichiers."},
+{s:1,q:"Quelles fonctionnalités sont apportées par Nutanix Guest Tools (NGT) ? (3 réponses)",o:["Snapshots cohérents applicatifs via VSS","Self-Service Restore (restauration de fichiers dans l'invité)","Pilotes VirtIO et mobilité de VM entre hyperviseurs","Réplication synchrone","Microsegmentation"],a:[0,1,2],e:"NGT est l'agent invité : VSS (Windows) pour la cohérence applicative, SSR, VirtIO, mobilité inter-hyperviseurs, communication avec le cluster sur le port 2074."},
+{s:1,q:"Vous devez imager des nœuds installés sur un site distant, sans technicien sur place ni Foundation VM locale. Quel outil utiliser ?",o:["Foundation Central, depuis Prism Central (les nœuds sont découverts via DHCP)","Foundation portable sur un laptop","Nutanix Move","LCM"],a:[0],e:"Foundation Central s'exécute dans PC : les nœuds sortis d'usine contactent FC grâce aux options DHCP (adresse de FC et clé API), puis sont imagés et regroupés en cluster à distance."},
+{s:1,q:"Dans quels cas la Witness VM est-elle utilisée ? (3 réponses)",o:["Clusters à deux nœuds","Metro Availability","Réplication synchrone","Clusters à un seul nœud","Mises à jour LCM en dark site"],a:[0,1,2],e:"La Witness arbitre les scénarios où deux sites ou nœuds peuvent perdre la communication : 2 nœuds, Metro (ESXi) et réplication synchrone. Un cluster 1 nœud n'en a pas besoin."},
+{s:1,q:"Qu'est-ce que Self-Service Restore (SSR) ?",o:["La restauration de fichiers individuels depuis un snapshot, réalisée depuis l'intérieur de la VM grâce à NGT","La restauration complète d'une VM depuis Prism Central","Un portail de sauvegarde pour les utilisateurs de Files","La récupération d'un vDisk depuis la Recycle Bin"],a:[0],e:"SSR (Windows et Linux) permet à l'utilisateur de la VM de monter un snapshot et de récupérer ses fichiers sans solliciter l'administrateur. Il nécessite NGT."},
+{s:1,q:"Quel outil sert à exécuter des tests de performance et de résilience (benchmark) sur une infrastructure hyperconvergée ?",o:["X-Ray","Collector","NCC","Logbay"],a:[0],e:"X-Ray déploie des VMs de test et exécute des scénarios (charge, panne de nœud, etc.). Collector inventorie, NCC vérifie la santé, Logbay collecte les logs."},
+{s:1,q:"Quel outil collecte l'inventaire et les métriques d'un environnement existant (vCenter, Hyper-V, AHV, AWS, Azure) pour préparer un dimensionnement ?",o:["Nutanix Collector","Nutanix Move","X-Ray","Foundation"],a:[0],e:"Collector est gratuit et exporte vers Nutanix Sizer pour dimensionner une migration. Move migre, X-Ray teste, Foundation image."},
+{s:2,q:"Une VM AHV allumée manque de mémoire. Que pouvez-vous faire ?",o:["Augmenter la mémoire à chaud depuis Prism : le hot-add de mémoire et de vCPU est supporté sur AHV","Rien : la VM doit être éteinte pour toute modification","Passer uniquement par acli","Activer d'abord Memory Overcommit"],a:[0],e:"AHV supporte l'augmentation à chaud de la mémoire et du nombre de vCPU. La diminution, ou le changement du nombre de cœurs par vCPU, nécessite d'éteindre la VM."},
+{s:2,q:"Une VM Windows fraîchement créée sur AHV ne voit ni son disque SCSI ni sa carte réseau pendant l'installation. Quelle est la cause ?",o:["Les pilotes Nutanix VirtIO ne sont pas chargés","Le disque est sur un bus IDE","NGT n'est pas installé","La VM est en mode UEFI"],a:[0],e:"Windows ne contient pas nativement les pilotes VirtIO (SCSI, réseau, ballooning). On monte l'ISO Nutanix VirtIO pendant l'installation, ou on les installe via NGT ensuite."},
+{s:2,q:"Où peut-on créer et déployer des templates de VM ?",o:["Dans Prism Central uniquement (VMs AHV)","Dans Prism Element uniquement","Dans PE et PC indifféremment","Dans Foundation"],a:[0],e:"La fonctionnalité VM Templates (avec ou sans guest customization, gestion des versions) est propre à Prism Central et limitée aux VMs AHV."},
+{s:2,q:"À quoi sert Advanced Processor Compatibility (APC) ?",o:["Permettre la migration à chaud d'une VM entre hôtes dont les CPU sont de générations différentes, en masquant certaines fonctionnalités CPU","Accélérer les calculs de la VM avec des instructions AVX","Réserver des cœurs physiques à une VM","Activer le GPU passthrough"],a:[0],e:"APC fixe la VM sur une baseline CPU commune au cluster (Intel ou AMD, pas de mélange). Activé par VM dans Prism Central, il demande un redémarrage de la VM."},
+{s:2,q:"Quel mode de boot est requis pour activer Secure Boot ou un vTPM sur une VM AHV ?",o:["UEFI","Legacy BIOS","Les deux fonctionnent","Aucun, cela dépend de NGT"],a:[0],e:"Secure Boot et vTPM (nécessaires par exemple pour Windows 11) exigent une VM en mode UEFI. Legacy BIOS ne les supporte pas."},
+{s:2,q:"Où sont définies les catégories (paires clé:valeur) et à quoi servent-elles ?",o:["Dans Prism Central ; elles sont utilisées par Flow, les Protection Policies, les playbooks, les rapports et le RBAC","Dans Prism Element ; elles servent uniquement à trier la liste des VMs","Dans NCC ; elles regroupent les checks","Dans LCM ; elles regroupent les mises à jour"],a:[0],e:"Les catégories (ex. Environment:Production) sont l'élément pivot de PC : Flow, DR, Self-Service, X-Play et les rôles s'appuient dessus. PE ne les gère pas."},
+{s:2,q:"Vous devez déplacer le vDisk d'une VM vers un autre storage container sans arrêter la VM. Est-ce possible ?",o:["Oui, la migration de vDisk entre containers se fait à chaud, depuis Prism Element ou Prism Central","Non, il faut éteindre la VM","Non, il faut passer par Nutanix Move","Oui, mais uniquement via un snapshot puis un clone"],a:[0],e:"La migration à chaud de vDisks entre containers (Live vDisk Migration) permet de changer de politique de stockage (RF, compression, EC) sans interruption."},
+{s:2,q:"Que faut-il pour qu'un snapshot d'une VM Windows soit cohérent au niveau applicatif ?",o:["NGT installé dans la VM, qui utilise VSS pour figer les applications","Un snapshot pris depuis Prism Central plutôt que Prism Element","Un vDisk sur bus IDE","La VM en mode UEFI"],a:[0],e:"Par défaut un snapshot est crash-consistent. Avec NGT, le cluster déclenche VSS dans l'invité pour un snapshot cohérent applicatif (bases de données, Exchange)."},
+{s:2,q:"Deux VMs doivent partager le même disque pour un cluster de basculement Windows. Quelle solution Nutanix utiliser ?",o:["Un Volume Group attaché aux deux VMs","Un vDisk standard attaché aux deux VMs","Un partage Nutanix Files","Un bucket Objects"],a:[0],e:"Les Volume Groups permettent le partage de disques (multi-writer) entre VMs, en attachement direct sur AHV ou via iSCSI (Data Services IP) pour des hôtes externes."},
+{s:2,q:"Quel bus de disque est recommandé pour les disques de données d'une VM AHV ?",o:["SCSI","IDE","SATA","PCI"],a:[0],e:"Le bus SCSI (virtio-scsi) offre les meilleures performances. IDE sert surtout aux lecteurs CD-ROM ; SATA et PCI existent pour la compatibilité."},
+{s:2,q:"Quels mécanismes de guest customization utilise Prism pour personnaliser une VM au premier démarrage ?",o:["Cloud-init pour Linux et Sysprep (unattend.xml) pour Windows","NGT pour Linux et VirtIO pour Windows","Ansible pour les deux","Foundation pour les deux"],a:[0],e:"Prism injecte un script Cloud-init (Linux) ou un fichier de réponse Sysprep (Windows) lors de la création ou du clonage. Depuis 7.5, ces profils sont réutilisables (Guest Customization Profiles)."},
+{s:2,q:"Quel est le type de bond par défaut du virtual switch vs0 sur AHV ?",o:["active-backup","balance-slb","balance-tcp","LACP dynamique"],a:[0],e:"active-backup n'utilise qu'un lien actif à la fois et ne demande aucune configuration côté switch : c'est le défaut, simple et sûr."},
+{s:2,q:"Quel type de bond nécessite la configuration de LACP sur les switchs physiques ?",o:["balance-tcp","active-backup","balance-slb","Aucun, LACP n'est pas supporté sur AHV"],a:[0],e:"balance-tcp agrège les liens avec LACP (port-channel côté switch) et offre le meilleur débit par VM. balance-slb répartit par MAC source sans LACP."},
+{s:2,q:"Comment fonctionne le bond balance-slb ?",o:["Il répartit le trafic sur les liens selon l'adresse MAC source (par VM), sans LACP, avec un rééquilibrage périodique","Il agrège les liens avec LACP","Il n'utilise qu'un seul lien actif","Il répartit chaque paquet en round-robin"],a:[0],e:"balance-slb (source load balancing) attribue chaque MAC de VM à un uplink et rééquilibre régulièrement. Il peut poser des problèmes avec le multicast ; balance-tcp avec LACP est préféré quand le switch le permet."},
+{s:2,q:"Vous voulez que le cluster attribue automatiquement des adresses IP aux VMs sans serveur DHCP externe. Que configurer ?",o:["Un sous-réseau avec IPAM Nutanix activé (réseau « managé ») et un pool d'adresses","Un sous-réseau non managé","Un Volume Group","Le service SNMP"],a:[0],e:"Avec IPAM, le cluster fournit lui-même les adresses (DHCP interne via OVS) à partir du pool défini, avec DNS et domaine. Un réseau non managé s'appuie sur un DHCP externe ou des IP statiques."},
+{s:2,q:"Quels sont les deux types de réseaux (subnets) proposés dans Prism Central ?",o:["VLAN et Overlay (VPC)","Managé et natif","Interne et externe","Backplane et management"],a:[0],e:"Un subnet VLAN est adossé à un VLAN physique via le virtual switch ; un subnet Overlay appartient à un VPC de Flow Virtual Networking (encapsulation Geneve)."},
+{s:2,q:"Quels sont le bridge et le virtual switch par défaut créés sur chaque hôte AHV ?",o:["br0 et vs0","br1 et vs1","eth0 et vSwitch0","bond0 et ovs0"],a:[0],e:"Le bridge OVS br0 est exposé dans Prism comme le virtual switch vs0 ; ses uplinks forment le bond br0-up."},
+{s:2,q:"À quoi sert la Network Segmentation (backplane) sur un cluster Nutanix ?",o:["Isoler le trafic de stockage entre CVM (réplication) sur un VLAN et une interface dédiés, séparés du trafic de management","Créer un VPC pour les VMs","Segmenter les VMs par catégorie","Séparer le trafic IPMI du trafic des VMs"],a:[0],e:"La segmentation réseau crée une interface backplane (eth2 sur la CVM et une interface sur l'hôte) sur un VLAN dédié ; on peut aussi isoler des services (Volumes, DR)."},
+{s:2,q:"Quels prérequis permettent au Network Visualizer d'afficher la topologie et les statistiques des switchs physiques ? (2 réponses)",o:["LLDP activé sur les switchs physiques","Un profil SNMP configuré pour les switchs dans Prism","Un sous-réseau overlay","NGT installé sur les VMs"],a:[0,1],e:"LLDP permet de découvrir à quel port de switch chaque hôte est connecté ; SNMP (Settings › Network Switch) remonte les statistiques des ports."},
+{s:2,q:"Quelle fonction permet de copier le trafic réseau d'une VM AHV vers un outil d'analyse ?",o:["Le traffic mirroring (sessions SPAN) sur les hôtes AHV","Le Network Visualizer","La Network Segmentation","Un Volume Group"],a:[0],e:"Le traffic mirroring crée des sessions de mirroring (source : ports ou VMs, destination : VM d'analyse) sur les hôtes AHV."},
+{s:2,q:"À quoi sert un Network Gateway dans Flow Virtual Networking ?",o:["Connecter un VPC à un réseau externe : VPN IPsec (niveau 3) ou VTEP pour étendre un réseau de niveau 2","Remplacer le switch physique","Servir de DHCP pour les VLAN","Faire de la microsegmentation"],a:[0],e:"Les Network Gateways (PC › Network & Security › Connectivity) établissent des VPN ou des extensions L2 (VTEP), avec routage statique ou BGP."},
+{s:2,q:"Que signifie un VLAN ID de 0 sur un sous-réseau AHV ?",o:["Le trafic n'est pas tagué (VLAN natif du port)","Le sous-réseau est un overlay","Le sous-réseau est réservé aux CVM","Le VLAN 0 est interdit"],a:[0],e:"VLAN 0 correspond au trafic non tagué, qui suit le VLAN natif configuré sur les ports du switch physique."},
+{s:2,q:"Sur quel objet configure-t-on le Replication Factor, la compression, la déduplication et l'erasure coding ?",o:["Le Storage Container","Le Storage Pool","Le vDisk","La CVM"],a:[0],e:"Hiérarchie : Storage Pool (tous les disques) › Storage Container (logique, porte les politiques) › vDisk. Les VMs d'un même cluster peuvent être réparties dans plusieurs containers aux politiques différentes."},
+{s:2,q:"Combien de nœuds minimum sont nécessaires pour activer l'Erasure Coding (EC-X) sur un cluster RF2 ?",o:["4","3","5","6"],a:[0],e:"EC-X a besoin d'au moins 4 nœuds en RF2 (et 6 en RF3). Il ne s'applique qu'aux données froides (non écrites depuis un certain temps) et réduit le surcoût de stockage."},
+{s:2,q:"Pour quel type de charge la déduplication est-elle la plus efficace ?",o:["VDI avec clones complets ou bureaux persistants, images similaires","Bases de données","Données chiffrées ou déjà compressées par l'application","Flux vidéo"],a:[0],e:"La dédup (post-process, empreintes SHA-1) est rentable quand beaucoup de données identiques existent (OS, applications). Elle est inutile, voire contre-productive, sur des bases de données ou des données chiffrées."},
+{s:2,q:"Un storage container a un délai de compression réglé à 60 minutes. De quel mode s'agit-il ?",o:["Compression post-process (les données sont compressées après un délai)","Compression inline","Erasure coding","Déduplication"],a:[0],e:"Délai 0 = inline (compression à l'écriture, valeur par défaut). Délai supérieur à 0 = post-process, la compression est faite plus tard par Curator."},
+{s:2,q:"Quel composant de la CVM absorbe les écritures aléatoires sur SSD avant de les transférer vers le stockage persistant ?",o:["L'Oplog","L'Extent Store","Le Unified Cache","Le Storage Pool"],a:[0],e:"L'Oplog est le journal d'écriture sur SSD, répliqué sur d'autres CVM avant acquittement. L'Extent Store est le stockage persistant ; le Unified Cache sert aux lectures."},
+{s:2,q:"Quelle affirmation décrit un container en RF1 ?",o:["Une seule copie des données : la panne du nœud rend les données indisponibles ; réservé aux données temporaires ou aux applications qui répliquent elles-mêmes","Deux copies sur le même nœud","Une copie par bloc","Un mode réservé aux clusters à un nœud"],a:[0],e:"RF1 supprime toute redondance pour gagner de l'espace. À n'utiliser que pour des données reconstituables (scratch, big data avec réplication applicative)."},
+{s:2,q:"À quoi sert la Rebuild Capacity Reservation ?",o:["Réserver l'espace nécessaire pour reconstruire toutes les copies après la perte d'un nœud (N+1)","Réserver de la RAM pour la CVM","Garantir des IOPS à une VM","Réserver de l'espace pour la Recycle Bin"],a:[0],e:"Sans réserve, un cluster trop plein ne peut pas se reconstruire après une panne de nœud et reste dégradé. L'option (PE › Settings) empêche l'usage de cet espace."},
+{s:2,q:"Quelle adresse IP du cluster est utilisée par les initiateurs iSCSI externes pour accéder aux Volume Groups ?",o:["La Data Services IP","La Cluster Virtual IP","L'IP de la première CVM","L'IP IPMI"],a:[0],e:"La Data Services IP est une adresse flottante dédiée aux services de données (Volumes, iSCSI port 3260). La Cluster VIP sert à Prism et au NFS."},
+{s:2,q:"Pendant combien de temps la Recycle Bin conserve-t-elle par défaut les vDisks supprimés ?",o:["24 heures","7 jours","30 minutes","Indéfiniment"],a:[0],e:"Les vDisks supprimés sont retenus 24 h avant purge, ce qui permet une récupération (via nCLI ou le support). L'espace occupé reste compté ; la fonction peut être désactivée."},
+{s:2,q:"Vous tentez de supprimer un storage container et Prism refuse. Cause la plus probable ?",o:["Le container contient encore des vDisks, VMs ou snapshots","Le container est en RF3","La compression est activée","Le container est monté sur Prism Central"],a:[0],e:"Un container ne peut être supprimé que lorsqu'il est vide (plus aucun vDisk, Volume Group, snapshot ou image)."},
+{s:2,q:"Sur quelle base sont facturées les licences NCI et NCM d'une part, et NUS d'autre part ?",o:["NCI et NCM par cœur de CPU ; NUS par capacité (TiB)","Toutes par nœud","Toutes par VM","NCI par TiB ; NUS par cœur"],a:[0],e:"Modèle Nutanix Cloud Platform : NCI et NCM en licences « core-based », NUS (Files/Objects/Volumes) à la capacité utile. NCI VDI est licencié par utilisateur."},
+{s:2,q:"Un cluster n'a pas accès à Internet. Comment lui appliquer une licence ?",o:["Générer le Cluster Summary File (CSF) dans Prism, l'uploader sur le portail (License Manager), télécharger le License Summary File (LSF) et l'uploader dans Prism","Activer Pulse","Utiliser Seamless Licensing depuis Prism Central","Ce n'est pas possible sans connexion"],a:[0],e:"C'est la méthode manuelle CSF → portail → LSF. La méthode Seamless demande une connectivité au portail Nutanix."},
+{s:2,q:"Que faut-il faire avant de détruire un cluster pour pouvoir réutiliser ses licences ailleurs ?",o:["Récupérer les licences (reclaim / unlicense) depuis Prism ou le License Manager","Rien, elles reviennent automatiquement","Supprimer le cluster de Prism Central","Désactiver Pulse"],a:[0],e:"Le reclaim libère les licences assignées au cluster et les renvoie dans le pool du compte. Sans cela, elles restent consommées."},
+{s:2,q:"À quoi servent les License Tags dans le License Manager ?",o:["À organiser et regrouper les licences (par site, département, projet) pour faciliter leur assignation","À prolonger la durée d'une licence","À convertir une licence Pro en Ultimate","À activer des fonctionnalités cachées"],a:[0],e:"Les tags sont des étiquettes de classement dans le portail ; elles n'ont aucun effet sur les fonctionnalités ni sur les dates."},
+{s:2,q:"Quels produits Nutanix n'exigent aucune licence payante ? (3 réponses)",o:["NCC","Nutanix Move","X-Ray","Nutanix Database Service","Flow Network Security"],a:[0,1,2],e:"NCC, LCM, Foundation, Move, X-Ray, Collector, NGT, Witness VM, Community Edition et Prism Element (Starter) sont gratuits. NDB et Flow Network Security sont licenciés."},
+{s:2,q:"Quelle licence NCI minimale est nécessaire pour utiliser RF3, l'Erasure Coding et la rack awareness ?",o:["NCI Pro","NCI Starter","NCI Ultimate","NCM Pro"],a:[0],e:"Starter est limité (12 nœuds maximum, RF2, disponibilité au niveau nœud). Pro débloque RF3, EC-X, block/rack awareness et la DR multi-sites. Ultimate ajoute Sync/NearSync/Metro, chiffrement et microsegmentation."},
+{s:2,q:"Quelle licence inclut la microsegmentation Flow Network Security et la réplication synchrone / Metro Availability ?",o:["NCI Ultimate","NCI Starter","NCI Pro","NUS Pro"],a:[0],e:"Ces fonctions sont dans NCI Ultimate (ou disponibles sur Pro via les add-ons Advanced Replication et Security)."},
+{s:2,q:"Que se passe-t-il lorsqu'une licence de cluster expire ?",o:["Le cluster continue de fonctionner mais génère des alertes et n'est plus conforme ; il faut renouveler","Les VMs sont arrêtées","Prism devient inaccessible","Les données passent en lecture seule"],a:[0],e:"Nutanix n'interrompt pas la production : des alertes d'expiration (avant et après la date) s'affichent dans Prism. Il faut renouveler pour rester conforme et supporté."},
+{s:2,q:"Quelle licence NCM est nécessaire pour Self-Service (ex-Calm) et Cost Governance ?",o:["NCM Ultimate","NCM Starter","NCM Pro","NCI Pro"],a:[0],e:"NCM Starter = fonctions de base de PC ; NCM Pro = Intelligent Operations (capacité, anomalies, playbooks) ; NCM Ultimate = Self-Service, Cost Governance, Security Central."},
+{s:3,q:"Où configure-t-on les serveurs DNS utilisés par les CVM et les hôtes ?",o:["Prism Element › Settings › Name Servers","Dans le fichier /etc/hosts de chaque CVM","Prism Central › Categories","Dans LCM"],a:[0],e:"Les Name Servers se configurent dans les paramètres de Prism Element ; PC a son propre réglage. L'édition manuelle des fichiers de la CVM n'est pas supportée."},
+{s:3,q:"Des alertes de dérive horaire apparaissent sur les CVM. Quelle est la première chose à vérifier ?",o:["La configuration NTP du cluster (Settings › NTP Servers) et le check NCC check_ntp","La configuration SMTP","La version de NGT","Le bond du virtual switch"],a:[0],e:"Le cluster a besoin de sources NTP fiables (idéalement trois). Le leader Genesis se synchronise puis propage l'heure aux autres CVM et aux hôtes. Depuis 7.5, le NTP authentifié est supporté."},
+{s:3,q:"Vous ne recevez aucun e-mail d'alerte du cluster. Quel paramètre vérifier en premier ?",o:["La configuration du serveur SMTP (Settings › SMTP Server) et les destinataires d'alertes","La fréquence NCC","La configuration SNMP","Pulse"],a:[0],e:"Les e-mails d'alertes passent par le serveur SMTP configuré (hôte, port, sécurité, expéditeur). SNMP concerne les traps, Pulse la télémétrie vers Nutanix."},
+{s:3,q:"Votre outil de supervision doit recevoir des traps du cluster. Où le configurer ?",o:["Prism Element › Settings › SNMP (utilisateurs v3, transports, destinataires de traps ; MIB Nutanix téléchargeable)","Settings › Syslog Server","Settings › Pulse","Settings › Alert Email Configuration"],a:[0],e:"La page SNMP permet d'activer l'agent, de définir les utilisateurs SNMPv3 et les récepteurs de traps. Le syslog envoie des logs texte, pas des traps."},
+{s:3,q:"Comment envoyer les logs des services du cluster (Stargate, Cassandra, audit) vers un SIEM ?",o:["Configurer un serveur Syslog distant (Settings › Syslog Server) en choisissant les modules et le niveau de sévérité","Activer Pulse","Exporter avec Logbay tous les jours","Configurer SNMP"],a:[0],e:"Le remote syslog (TCP, UDP ou RELP) est disponible dans PE et PC, module par module, avec un niveau de sévérité minimal."},
+{s:3,q:"Un cluster configuré avec un Redundancy Factor de 3 (FT2) tolère combien de pannes simultanées de nœuds ?",o:["2","1","3","0"],a:[0],e:"FT2 : 3 copies de données et 5 copies de métadonnées, donc deux pannes simultanées tolérées. FT1 (RF2) n'en tolère qu'une."},
+{s:3,q:"Comment fait-on passer un cluster de la redondance 2 à la redondance 3 ?",o:["Depuis Prism Element (Settings › Redundancy State), à condition d'avoir au moins 5 nœuds ; l'opération n'est pas réversible via Prism","En recréant le cluster","Depuis LCM","En ajoutant une Witness VM"],a:[0],e:"Le passage RF2 → RF3 se fait en ligne mais nécessite 5 nœuds et augmente la consommation d'espace (métadonnées en 5 copies). Les containers peuvent ensuite être passés en RF3."},
+{s:3,q:"Quelle condition minimale permet la Rack Fault Tolerance sur un cluster RF2 ?",o:["Au moins 3 racks configurés dans Prism (Settings › Rack Configuration), avec les blocs assignés aux racks","Au moins 2 racks","Un Prism Central","La block awareness désactivée"],a:[0],e:"La rack awareness se configure manuellement en assignant les blocs à des racks ; il faut 3 racks minimum en RF2 (5 en RF3) pour que les copies soient réparties entre racks."},
+{s:3,q:"Comment enregistre-t-on un cluster (Prism Element) auprès de Prism Central ?",o:["Depuis PE : Settings › Prism Central Registration, en indiquant l'adresse de PC et des identifiants admin","Depuis LCM","Depuis Foundation","Automatiquement via Pulse"],a:[0],e:"L'enregistrement se lance depuis PE (port 9440 vers PC). Un cluster ne peut être enregistré qu'auprès d'un seul PC ; le désenregistrement se fait en ligne de commande."},
+{s:3,q:"Un cluster PE peut-il héberger plusieurs instances Prism Central ?",o:["Oui, plusieurs PC peuvent être déployés sur un même cluster, mais ce cluster ne peut être enregistré qu'auprès d'un seul PC","Non, un seul PC par cluster","Oui, et le cluster peut être géré par tous","Seulement en scale-out"],a:[0],e:"Héberger n'est pas être géré par. Un cluster peut faire tourner plusieurs VMs PC (par exemple prod et test), mais il ne s'enregistre qu'à un seul."},
+{s:3,q:"Quel est le mot de passe par défaut du compte admin de Prism, à changer à la première connexion ?",o:["Nutanix/4u","nutanix","admin","Nutanix123"],a:[0],e:"Prism admin : Nutanix/4u. CVM : nutanix / nutanix/4u. Hôte AHV : root / nutanix/4u. Tous doivent être changés."},
+{s:3,q:"Que fait l'option Cluster Lockdown ?",o:["Elle désactive l'accès SSH par mot de passe aux CVM et impose l'authentification par clé","Elle bloque toute modification de la configuration","Elle empêche la création de VMs","Elle chiffre les données au repos"],a:[0],e:"Le lockdown (Settings › Cluster Lockdown) renforce la sécurité : seules les clés SSH enregistrées permettent l'accès. Depuis 7.5, CVM Secure Access permet même de désactiver totalement SSH."},
+{s:3,q:"Dans Prism Element, quel rôle permet d'administrer entièrement le cluster sans pouvoir gérer les utilisateurs ?",o:["Cluster Admin","User Admin","Viewer","Backup Admin"],a:[0],e:"Viewer = lecture seule ; Cluster Admin = toute l'administration sauf les utilisateurs ; User Admin = Cluster Admin + gestion des utilisateurs ; Backup Admin = accès limité aux opérations de sauvegarde."},
+{s:3,q:"Que se passe-t-il pour les VMs lorsqu'un hôte AHV est placé en mode maintenance ?",o:["Elles sont migrées à chaud vers les autres hôtes ; celles qui ne peuvent pas l'être (GPU passthrough, affinité stricte, agent VMs) doivent être éteintes","Elles sont toutes éteintes","Elles restent sur l'hôte, en pause","Elles sont clonées sur un autre hôte"],a:[0],e:"L'entrée en maintenance (PE Hardware › hôte, ou PC Hardware › Hosts › Actions) évacue les VMs par live migration puis arrête la CVM. À la sortie, les VMs peuvent revenir sur l'hôte."},
+{s:3,q:"Quel est l'ordre correct pour arrêter proprement un cluster AHV complet ?",o:["Éteindre les VMs utilisateur → « cluster stop » depuis une CVM → arrêter chaque CVM → arrêter les hôtes","Arrêter les hôtes → arrêter les CVM → cluster stop","cluster stop → éteindre les VMs → arrêter les hôtes","Arrêter les CVM → éteindre les VMs → cluster stop"],a:[0],e:"On arrête d'abord les charges, puis les services (cluster stop), puis les CVM (cvm_shutdown -P now) et enfin les hôtes. Au redémarrage : hôtes → CVM → cluster start → cluster status → VMs."},
+{s:3,q:"Lors d'un Expand Cluster, le nouveau nœud n'apparaît pas dans la découverte automatique. Cause la plus probable ?",o:["Le nœud n'est pas sur le même segment L2 que le cluster, ou le trafic IPv6 link-local est bloqué (la découverte repose dessus)","Le nœud n'a pas de licence","Prism Central n'est pas enregistré","Le nœud est en RF3"],a:[0],e:"La découverte des nœuds utilise IPv6 link-local. Sinon on peut ajouter le nœud manuellement par ses adresses IP. Foundation ré-image le nœud si sa version AOS ou hyperviseur diffère."},
+{s:3,q:"Quelle affirmation décrit un nœud compute-only ?",o:["Il exécute AHV sans CVM ni stockage local contribué, et utilise le stockage des nœuds HCI du cluster","Il exécute uniquement une CVM","Il fournit du stockage mais pas de calcul","Il remplace la Witness VM"],a:[0],e:"Le nœud compute-only ajoute de la puissance CPU/RAM (par exemple pour des licences par cœur) sans stockage. Il requiert des nœuds HCI. Depuis AOS 7.5, un installeur AHV permet de le déployer sans Foundation."},
+{s:3,q:"Quels cas d'usage correspondent à la gestion out-of-band (IPMI/BMC : iDRAC, iLO, XCC) ? (3 réponses)",o:["Console distante (KVM over IP) et média virtuel pour l'imaging","Power on/off/reset à distance","Lecture des capteurs matériels et mise à jour de firmware","Création de VMs","Configuration des VLAN des VMs"],a:[0,1,2],e:"L'OOB agit sur le matériel indépendamment de l'OS. Foundation s'en sert pour monter les ISO ; LCM peut utiliser les identifiants OOB configurés dans Prism sur certaines plateformes."},
+{s:3,q:"Depuis l'hôte, quelle commande permet de définir l'adresse IP de l'interface IPMI ?",o:["ipmitool lan set 1 ipaddr <IP>","ncli host set-ipmi","acli host.set_ipmi","foundation set-ip"],a:[0],e:"ipmitool (lan set 1 ipaddr / netmask / defgw ipaddr) configure la carte de management depuis l'hôte, en complément de l'interface BIOS ou web du BMC."},
+{s:3,q:"Qu'est-ce que l'application Power Monitor ?",o:["Une application déployée depuis la Marketplace de Prism Central pour suivre la consommation électrique des clusters via les identifiants OOB","Un onduleur logiciel","Un check NCC sur les alimentations","Un rapport de Cost Governance"],a:[0],e:"Power Monitor (Admin Center › Marketplace) interroge les BMC (identifiants OOB en lecture seule) pour afficher la consommation des nœuds et des clusters."},
+{s:3,q:"Quelle est la procédure correcte pour remplacer un disque encore fonctionnel mais à retirer ?",o:["Prism › Hardware › Diagram › sélectionner le disque › Remove Disk, attendre la fin de la migration des données, puis retirer physiquement le disque","Retirer physiquement le disque puis le déclarer supprimé","Arrêter la CVM, retirer le disque, redémarrer","Mettre tout le cluster en maintenance"],a:[0],e:"Remove Disk déplace d'abord les données vers d'autres disques. Le nouveau disque est détecté automatiquement ; s'il a déjà servi, on utilise « Repartition and Add »."},
+{s:3,q:"Un HDD tombe en panne sur un nœud du cluster. Que se passe-t-il ?",o:["Le disque est marqué hors ligne, une alerte est levée et le cluster reconstruit automatiquement les copies manquantes sur les autres disques et nœuds","Le nœud entier est arrêté","Les VMs du nœud sont éteintes","Rien tant qu'un administrateur n'intervient pas"],a:[0],e:"Stargate détecte les erreurs, Hades diagnostique le disque ; s'il est défaillant, Curator lance la reconstruction (self-healing). Le widget Data Resiliency Status reflète l'état."},
+{s:3,q:"Quelle est la première action à réaliser dans LCM avant de pouvoir appliquer des mises à jour ?",o:["Perform Inventory (inventaire), après avoir exécuté et corrigé NCC","Apply Updates","Redémarrer les CVM","Désactiver Pulse"],a:[0],e:"L'inventaire détecte les versions installées et les mises à jour disponibles. Ensuite : sélection, pré-checks, View Plan, Apply (déploiement rolling)."},
+{s:3,q:"Dans quel ordre Nutanix recommande-t-il de mettre à jour les composants ?",o:["Prism Central d'abord, puis NCC → Foundation → AOS → AHV → firmwares","AHV → AOS → NCC → Prism Central","Firmwares → AHV → AOS → Prism Central","L'ordre n'a pas d'importance"],a:[0],e:"Prism Central doit être compatible (en général supérieur ou égal) avec l'AOS des clusters. NCC en premier apporte les checks à jour, Foundation les fonctions d'imaging, puis AOS et son AHV compatible. À retenir surtout : PC en premier, NCC avant le reste, AOS avant AHV."},
+{s:3,q:"Où vérifie-t-on qu'une version d'AOS est compatible avec une version de Prism Central ou d'AHV avant une mise à jour ?",o:["Sur le portail Support : Compatibility & Interoperability Matrix et Upgrade Paths","Dans Foundation","Dans le Network Visualizer","Dans les catégories de Prism Central"],a:[0],e:"La matrice de compatibilité et l'outil Upgrade Paths du portail font autorité (par exemple AOS 7.5 ↔ AHV 11.0 ↔ pc.7.5)."},
+{s:3,q:"Quel est l'impact d'une mise à jour d'AOS sur les VMs en production ?",o:["Aucun arrêt : les CVM sont mises à jour et redémarrées une par une (rolling), les I/O étant redirigés vers une autre CVM","Toutes les VMs sont éteintes","Chaque hôte redémarre avec ses VMs","Les VMs sont mises en pause"],a:[0],e:"La mise à jour AOS est non disruptive. Pour AHV ou les firmwares, chaque hôte passe en maintenance à son tour (VMs migrées à chaud)."},
+{s:3,q:"Comment mettre à jour NGT sur des dizaines de VMs en une seule opération ?",o:["Depuis Prism Central : VMs › sélection multiple › Actions › Upgrade NGT","Depuis LCM","En redémarrant les VMs","Depuis Foundation Central"],a:[0],e:"PC permet la mise à jour en masse de NGT sur les VMs qui l'ont installé (VMs démarrées, joignables sur le port 2074)."},
+{s:3,q:"Des pré-checks LCM échouent avant l'application d'une mise à jour. Que faire ?",o:["Analyser et corriger la cause (souvent indiquée par un check NCC ou une KB) puis relancer, sans forcer la mise à jour","Forcer la mise à jour","Redémarrer tous les hôtes","Ignorer : les pré-checks sont seulement informatifs"],a:[0],e:"Les pré-checks protègent le cluster (espace, résilience, NTP, connectivité). On corrige, puis on relance l'inventaire et l'application."},
+{s:3,q:"Comment distingue-t-on un site connecté d'un dark site du point de vue de LCM ?",o:["Un site connecté télécharge automatiquement les mises à jour depuis Nutanix ; un dark site n'a pas d'accès Internet et utilise un serveur web local ou Direct Upload","Un dark site n'a pas de Prism Central","Un dark site utilise Pulse à la place de LCM","Aucune différence"],a:[0],e:"LCM Settings permet de choisir la source : Nutanix (avec proxy éventuel) ou une URL locale hébergeant le bundle dark site."},
+{s:4,q:"Comment lancer l'ensemble des checks NCC depuis l'interface Prism Element ?",o:["Health › Actions › Run NCC Checks (tous les checks ou une sélection)","Settings › Upgrade Software","Hardware › Diagram","Analysis › New Chart"],a:[0],e:"La page Health regroupe l'exécution des checks, la fréquence, la collecte de logs et la gestion des checks. En ligne de commande : ncc health_checks run_all."},
+{s:4,q:"Quelle commande exécute tous les checks de santé depuis une CVM ?",o:["ncc health_checks run_all","cluster status","logbay collect","ncli cluster get-params"],a:[0],e:"NCC produit un rapport avec les statuts PASS / INFO / WARN / FAIL / ERR. cluster status vérifie l'état des services ; logbay collecte les logs."},
+{s:4,q:"Lequel de ces statuts n'existe PAS dans les résultats NCC ?",o:["CRITICAL","PASS","WARN","FAIL"],a:[0],e:"Les résultats NCC sont PASS, INFO, WARN, FAIL et ERR. « Critical » est une sévérité d'alerte Prism, pas un statut NCC."},
+{s:4,q:"Comment planifier l'exécution automatique de NCC avec envoi du rapport par e-mail ?",o:["Health › Actions › Set NCC Frequency (toutes les 4 h, quotidien ou hebdomadaire) avec les destinataires","Via LCM","Via un playbook obligatoire","Ce n'est pas possible"],a:[0],e:"La fréquence NCC se règle dans la page Health ; les e-mails nécessitent un serveur SMTP configuré."},
+{s:4,q:"Comment collecter un bundle de logs à transmettre au support depuis l'interface ?",o:["Health › Actions › Collect Logs (Logbay), en choisissant la plage horaire et les composants, puis téléchargement ou envoi direct au support","Settings › Pulse › Export","Hardware › Export","Analysis › Export"],a:[0],e:"Logbay remplace l'ancien log collector ; en CLI : logbay collect (par exemple --duration=-4h). Le bundle peut être envoyé au support avec le numéro de cas."},
+{s:4,q:"Vous voulez comparer l'utilisation CPU de cinq VMs sur un même graphique dans la page Analysis. Quel type de chart créer ?",o:["Un Metric Chart (une métrique, plusieurs entités)","Un Entity Chart (une entité, plusieurs métriques)","Un rapport","Une alerte personnalisée"],a:[0],e:"Metric chart = une métrique pour N entités. Entity chart = N métriques pour une seule entité."},
+{s:4,q:"Vous voulez afficher CPU, mémoire, IOPS et latence d'une seule VM sur un graphique. Quel type de chart ?",o:["Un Entity Chart","Un Metric Chart","Un Network Visualizer","Un Capacity Runway"],a:[0],e:"L'Entity chart regroupe plusieurs métriques d'une même entité (VM, hôte, cluster)."},
+{s:4,q:"Que montre la commande « cluster status » exécutée sur une CVM ?",o:["L'état (UP/DOWN) des services AOS sur chaque CVM du cluster","La liste des VMs et leur consommation","Les résultats des checks NCC","La liste des mises à jour disponibles"],a:[0],e:"cluster status affiche, CVM par CVM, les services (Stargate, Cassandra, Curator) et leurs PID. C'est le premier réflexe pour vérifier l'état du cluster en CLI."},
+{s:4,q:"Que signifie le widget « Data Resiliency Status » en état Critical sur le tableau de bord de Prism Element ?",o:["Le cluster ne peut plus tolérer de panne supplémentaire (reconstruction en cours, nœud ou disque en panne, espace insuffisant)","Une VM est en surcharge CPU","La licence a expiré","Pulse est désactivé"],a:[0],e:"Le widget indique, composant par composant, combien de pannes sont tolérables. Critical = ne pas lancer de maintenance, laisser la reconstruction se terminer et traiter la panne."},
+{s:4,q:"Qu'envoie Pulse à Nutanix, et où vérifie-t-on son statut ?",o:["De la télémétrie (configuration, santé, alertes, performances, versions) vers Nutanix Insights ; statut dans Settings › Pulse (PE et PC) ou via ncli (pulse-config)","Les données des VMs ; statut dans LCM","Les logs complets en continu ; statut dans Health","Les licences ; statut dans Foundation"],a:[0],e:"Pulse (activé par défaut, HTTPS vers Nutanix, via proxy ou via PC si besoin) n'envoie pas le contenu des VMs. Il alimente le support proactif."},
+{s:4,q:"Quels bénéfices apporte l'activation de Pulse ? (3 réponses)",o:["Support proactif et Discoveries (bugs connus, EOL, advisories concernant vos clusters)","Création automatique de cas support pour certaines pannes","Recommandations de mise à jour et vue de santé sur le portail Insights","Augmentation des IOPS du cluster","Sauvegarde des VMs dans le cloud"],a:[0,1,2],e:"Pulse alimente Nutanix Insights : analyse prédictive, cas automatiques, recommandations. Il n'a aucun effet sur les performances ni sur les sauvegardes."},
+{s:4,q:"Vous voulez être alerté quand la latence d'une VM critique dépasse 20 ms pendant 10 minutes, seuil non couvert par les alertes système. Que faire ?",o:["Créer une Custom Alert Policy dans Prism Central (entité, métrique, seuil, durée, sévérité)","Modifier un check NCC","Augmenter la fréquence NCC","Configurer SNMP"],a:[0],e:"Les alert policies personnalisées de PC couvrent les métriques de VMs, hôtes et clusters avec des seuils statiques ou basés sur les anomalies."},
+{s:4,q:"Laquelle n'est PAS une sévérité d'alerte dans Prism ?",o:["Emergency","Critical","Warning","Info"],a:[0],e:"Les sévérités sont Critical, Warning et Info. Les alertes portent aussi un type d'impact : Availability, Capacity, Configuration, Performance, System Indicator."},
+{s:4,q:"Une alerte critique indique que le cluster ne peut plus tolérer de panne (résilience dégradée) après la perte d'un nœud. Quelle est la bonne conduite ?",o:["Ne lancer aucune maintenance ni mise à jour, laisser la reconstruction se terminer, traiter la cause (nœud ou disque) et vérifier l'espace libre","Lancer immédiatement une mise à jour AOS","Passer un autre hôte en maintenance","Supprimer des snapshots au hasard"],a:[0],e:"Impact : disponibilité. Une seconde panne pendant la reconstruction peut rendre des données indisponibles. La page de l'alerte fournit cause, résolution et lien KB."},
+{s:4,q:"Qu'est-ce que l'« Alert Triggered Log Collection » ?",o:["La collecte automatique d'un bundle de logs (Logbay) lorsque certaines alertes se déclenchent, pour accélérer le support","Un e-mail envoyé à chaque alerte","Un check NCC","Un rapport hebdomadaire"],a:[0],e:"Certaines alertes déclenchent automatiquement une collecte de logs ciblée, éventuellement transmise à Nutanix, ce qui évite de perdre des logs éphémères."},
+{s:4,q:"Quelle est la différence entre un Event et une Alert dans Prism ?",o:["Un Event est informatif (action réalisée, changement) ; une Alert signale une condition nécessitant une attention et peut être acquittée puis résolue","Ce sont des synonymes","Les Events sont plus graves que les Alerts","Les Alerts ne concernent que le matériel"],a:[0],e:"Les events tracent l'activité (création de VM, mise à jour). Les alerts ont une sévérité, une cause, une résolution et un cycle de vie (acknowledge, resolve)."},
+{s:4,q:"Comment obtenir chaque semaine par e-mail un PDF listant les VMs et leur consommation ?",o:["Créer un rapport personnalisé dans Prism Central (Reports), le planifier et définir les destinataires","Activer Pulse","Utiliser la Recycle Bin","Configurer SNMP"],a:[0],e:"Les rapports PC (prédéfinis ou personnalisés, PDF ou CSV) peuvent être planifiés et envoyés par e-mail (SMTP configuré)."},
+{s:4,q:"Que mesure le CPU Ready d'une VM ?",o:["Le temps pendant lequel une vCPU est prête à s'exécuter mais attend qu'un cœur physique se libère","Le temps CPU consommé par la VM","Le temps d'attente des I/O disque","La charge du CPU de la CVM"],a:[0],e:"Un CPU Ready élevé (au-delà de 5 %) révèle une contention ou une sur-allocation CPU sur l'hôte. Il se lit dans les métriques de la VM (Prism)."},
+{s:4,q:"Une VM est lente avec un CPU Ready élevé, alors que l'utilisation CPU de l'hôte n'est pas saturée. Action la plus pertinente ?",o:["Réduire le nombre de vCPU surdimensionnées de la VM ou la déplacer vers un hôte moins chargé (ADS peut aider)","Ajouter des vCPU à la VM","Augmenter la mémoire","Activer la déduplication"],a:[0],e:"Trop de vCPU par rapport aux cœurs physiques disponibles augmente l'attente de scheduling. Ajouter des vCPU aggrave le problème."},
+{s:4,q:"Quelle affirmation sur AHV Memory Overcommit est correcte ?",o:["Il permet d'allouer aux VMs plus de mémoire que la mémoire physique de l'hôte ; il s'active par VM dans Prism Central et n'est pas recommandé pour les VMs critiques","Il est activé par défaut sur toutes les VMs","Il nécessite RF3","Il double la mémoire de la CVM"],a:[0],e:"L'overcommit s'appuie sur le ballooning et le swap de l'hôte ; il peut dégrader les performances sous pression mémoire. À réserver aux VMs non critiques."},
+{s:4,q:"Le graphique de latence d'un cluster montre des pics importants la nuit, alors que les IOPS sont très faibles. Interprétation la plus probable ?",o:["Artefact statistique : avec très peu d'I/O, quelques opérations lentes font grimper la latence moyenne ; il faut lire IOPS et latence ensemble","Une panne de disque imminente","Un manque de CPU sur la CVM","Le cluster est saturé"],a:[0],e:"À faible IOPS, la moyenne est dominée par quelques I/O (par exemple de gros blocs). Une latence élevée n'est préoccupante que si elle coïncide avec une charge réelle ou des symptômes applicatifs."},
+{s:4,q:"Dans l'analyse d'efficacité des VMs (NCM Intelligent Operations), quelle catégorie désigne une VM qui manque de ressources ?",o:["Constrained","Bully","Overprovisioned","Inactive"],a:[0],e:"Constrained = à l'étroit ; Bully = consomme trop et gêne les autres ; Overprovisioned = surdimensionnée ; Inactive = inutilisée."},
+{s:4,q:"Qu'indique le Capacity Runway ?",o:["Le nombre de jours restant avant l'épuisement d'une ressource (CPU, mémoire, stockage) selon la tendance de consommation","Le nombre de nœuds à ajouter","La durée de la reconstruction","Le délai avant expiration de licence"],a:[0],e:"Le Runway (NCM Intelligent Ops) s'appuie sur l'apprentissage des tendances ; les scénarios de planification permettent de simuler des ajouts de charge ou de nœuds."},
+{s:4,q:"Quels éléments doivent accompagner un cas support pour un traitement efficace ? (3 réponses)",o:["Le bundle de logs Logbay couvrant la période du problème","La sortie NCC et les alertes concernées","Les versions (AOS/AHV/PC), l'identifiant du cluster ou le numéro de série, et une description précise avec chronologie","Le mot de passe admin de Prism","La liste complète des VMs et de leurs données"],a:[0,1,2],e:"Le support a besoin de contexte technique et de logs, jamais d'identifiants. Le bundle Logbay peut être envoyé directement depuis Prism avec le numéro de cas."},
+{s:4,q:"Quelle priorité de cas support correspond à une production arrêtée ou un impact critique ?",o:["P1","P2","P3","P4"],a:[0],e:"P1 = critique (production arrêtée, perte de données possible), P2 = impact fort, P3 = impact modéré avec contournement, P4 = faible ou question. Les délais de réponse dépendent du contrat (Basic, Production, Mission Critical)."},
+{s:4,q:"Quel type de documentation consulter pour connaître les nouveautés, les bugs corrigés et les problèmes connus d'une version d'AOS ?",o:["Les Release Notes","La Knowledge Base","La Compatibility Matrix","Les Field Advisories"],a:[0],e:"Release Notes = contenu d'une version ; KB = articles de résolution ; Compatibility Matrix = versions compatibles ; Field et Security Advisories = avertissements sur des problèmes ou vulnérabilités."},
+{s:4,q:"Qu'apporte Nutanix Insights ?",o:["Une analyse prédictive de la santé basée sur les données Pulse : Discoveries, recommandations d'upgrade, création automatique de cas","Un outil de benchmark","Un remplacement de Prism Central","Une console pour Kubernetes"],a:[0],e:"Insights est la plateforme SaaS du support, alimentée par Pulse. Cloud Health Insights étend cette vue aux environnements cloud et NC2."},
+{s:4,q:"Nouveauté de Prism Central 7.5 : où peut-on désormais exécuter les checks de santé NCC de plusieurs clusters sans se connecter à chaque Prism Element ?",o:["Directement depuis l'interface de Prism Central","Depuis Nutanix Move","Depuis Foundation Central","Depuis la Witness VM"],a:[0],e:"PC 7.5 intègre les Cluster Health Checks (NCC) multi-clusters, en plus des vues unifiées d'allocation et de consommation des ressources."},
+
+];
+
+const $ = id => document.getElementById(id);
+let mode = "train";
+let session = null;
+let timerHandle = null;
+
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function setEq(a,b){ if(a.size!==b.size) return false; for(const x of a) if(!b.has(x)) return false; return true; }
+
+/* ---------- setup ---------- */
+function buildSetup(){
+  const box = $("sections");
+  box.innerHTML = "";
+  Object.keys(SECTIONS).forEach(s => {
+    const n = QUESTIONS.filter(q => q.s == s).length;
+    const l = document.createElement("label");
+    l.className = "check";
+    l.innerHTML = `<input type="checkbox" value="${s}" checked> ${SECTIONS[s]} <em>${n} questions</em>`;
+    box.appendChild(l);
+  });
+}
+document.querySelectorAll(".mode").forEach(b => b.addEventListener("click", () => {
+  mode = b.dataset.mode;
+  document.querySelectorAll(".mode").forEach(x => x.setAttribute("aria-pressed", x === b ? "true" : "false"));
+  $("countRow").hidden = (mode === "exam");
+}));
+
+$("start").addEventListener("click", () => {
+  const secs = new Set([...document.querySelectorAll("#sections input:checked")].map(i => +i.value));
+  if(!secs.size){ alert("Coche au moins une section."); return; }
+  const pool = QUESTIONS.filter(q => secs.has(q.s));
+  const count = mode === "exam" ? 50 : +$("count").value;
+  startSession(pool, count);
+});
+
+function startSession(pool, count){
+  let list = pool.slice();
+  if($("shufQ").checked || mode === "exam") shuffle(list);
+  if(count && count < list.length) list = list.slice(0, count);
+  const shufO = $("shufO").checked;
+  session = {
+    items: list.map(q => {
+      const perm = q.o.map((_, i) => i);
+      if(shufO) shuffle(perm);
+      return { q, perm, selected: new Set(), checked: false, correct: null };
+    }),
+    idx: 0,
+    finished: false,
+    correctSet: null
+  };
+  $("setup").hidden = true;
+  $("result").hidden = true;
+  $("play").hidden = false;
+  $("timer").hidden = (mode !== "exam");
+  $("liveScore").hidden = (mode === "exam");
+  $("grid").hidden = (mode !== "exam");
+  $("prev").hidden = (mode !== "exam");
+  if(mode === "exam") startTimer(90 * 60); else stopTimer();
+  render();
+  window.scrollTo({ top: 0 });
+}
+
+/* ---------- timer ---------- */
+function startTimer(seconds){
+  stopTimer();
+  let left = seconds;
+  const paint = () => {
+    const m = Math.floor(left / 60), s = left % 60;
+    $("timer").textContent = `${m}:${String(s).padStart(2,"0")}`;
+    $("timer").classList.toggle("late", left < 10 * 60);
+  };
+  paint();
+  timerHandle = setInterval(() => {
+    left--;
+    paint();
+    if(left <= 0){ stopTimer(); finishSession(); }
+  }, 1000);
+}
+function stopTimer(){ if(timerHandle){ clearInterval(timerHandle); timerHandle = null; } }
+
+/* ---------- play ---------- */
+function isCorrect(it){
+  const chosen = new Set([...it.selected].map(d => it.perm[d]));
+  return setEq(chosen, new Set(it.q.a));
+}
+
+function render(){
+  const it = session.items[session.idx], q = it.q, multi = q.a.length > 1;
+  $("railFill").style.width = ((session.idx) / session.items.length * 100) + "%";
+  $("counter").textContent = `Question ${session.idx + 1} sur ${session.items.length}`;
+  $("secBadge").textContent = SECTIONS[q.s];
+  $("qtext").textContent = q.q;
+  $("qhelp").textContent = multi
+    ? `Plusieurs réponses attendues (${q.a.length}). Sélectionne-les puis valide.`
+    : "Une seule bonne réponse.";
+
+  const ul = $("options");
+  ul.innerHTML = "";
+  it.perm.forEach((orig, disp) => {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    b.dataset.disp = disp;
+    const good = q.a.includes(orig);
+    const sel = it.selected.has(disp);
+    if(it.checked){
+      if(good && sel) b.classList.add("correct");
+      else if(good && !sel) b.classList.add("missed");
+      else if(!good && sel) b.classList.add("wrong");
+      b.disabled = true;
+    } else if(sel){
+      b.classList.add("selected");
+    }
+    b.innerHTML = `<span class="k">${disp + 1}</span><span>${q.o[orig]}</span>`;
+    b.addEventListener("click", () => choose(disp));
+    li.appendChild(b);
+    ul.appendChild(li);
+  });
+
+  // feedback
+  const fb = $("feedback");
+  if(it.checked && mode === "train"){
+    fb.hidden = false;
+    fb.className = "feedback" + (it.correct ? "" : " bad");
+    fb.innerHTML = `<strong>${it.correct ? "Juste." : "Raté."}</strong>${q.e}`;
+  } else {
+    fb.hidden = true;
+  }
+
+  // buttons
+  const last = session.idx === session.items.length - 1;
+  if(mode === "train"){
+    $("check").hidden = !(multi && !it.checked);
+    $("check").disabled = it.selected.size === 0;
+    $("next").hidden = !it.checked;
+    $("next").textContent = last ? "Voir le résultat" : "Question suivante";
+    $("finish").hidden = true;
+    const done = session.items.filter(x => x.checked).length;
+    const ok = session.items.filter(x => x.correct).length;
+    $("liveScore").textContent = done ? `${ok} juste${ok > 1 ? "s" : ""} sur ${done}` : "";
+  } else {
+    $("check").hidden = true;
+    $("next").hidden = last;
+    $("next").textContent = "Question suivante";
+    $("prev").disabled = session.idx === 0;
+    $("finish").hidden = false;
+    renderGrid();
+  }
+}
+
+function renderGrid(){
+  const g = $("grid");
+  g.innerHTML = "";
+  session.items.forEach((it, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = i + 1;
+    if(it.selected.size) b.classList.add("done");
+    if(i === session.idx) b.classList.add("cur");
+    b.addEventListener("click", () => { session.idx = i; render(); });
+    g.appendChild(b);
+  });
+}
+
+function choose(disp){
+  const it = session.items[session.idx], multi = it.q.a.length > 1;
+  if(it.checked) return;
+  if(multi){
+    if(it.selected.has(disp)) it.selected.delete(disp); else it.selected.add(disp);
+    render();
+  } else {
+    it.selected = new Set([disp]);
+    if(mode === "train") check(); else render();
+  }
+}
+
+function check(){
+  const it = session.items[session.idx];
+  if(!it.selected.size) return;
+  it.checked = true;
+  it.correct = isCorrect(it);
+  render();
+  $("next").focus();
+}
+
+function next(){
+  if(session.idx < session.items.length - 1){ session.idx++; render(); window.scrollTo({ top: 0 }); }
+  else finishSession();
+}
+
+$("check").addEventListener("click", check);
+$("next").addEventListener("click", next);
+$("prev").addEventListener("click", () => { if(session.idx > 0){ session.idx--; render(); } });
+$("finish").addEventListener("click", () => {
+  const blank = session.items.filter(it => !it.selected.size).length;
+  if(blank && !confirm(`${blank} question${blank > 1 ? "s" : ""} sans réponse. Terminer quand même ?`)) return;
+  finishSession();
+});
+$("quit").addEventListener("click", () => {
+  if(confirm("Quitter cette session ? La progression sera perdue.")){ stopTimer(); goSetup(); }
+});
+
+document.addEventListener("keydown", e => {
+  if($("play").hidden || session === null) return;
+  if(e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+  const it = session.items[session.idx], multi = it.q.a.length > 1;
+  if(/^[1-9]$/.test(e.key)){
+    const d = +e.key - 1;
+    if(d < it.perm.length){ e.preventDefault(); choose(d); }
+  } else if(e.key === "Enter"){
+    e.preventDefault();
+    if(mode === "train"){
+      if(!it.checked){ if(multi && it.selected.size) check(); }
+      else next();
+    } else {
+      if(session.idx < session.items.length - 1) next();
+    }
+  } else if(mode === "exam" && e.key === "ArrowLeft"){
+    if(session.idx > 0){ session.idx--; render(); }
+  } else if(mode === "exam" && e.key === "ArrowRight"){
+    if(session.idx < session.items.length - 1){ session.idx++; render(); }
+  }
+});
+
+/* ---------- results ---------- */
+function finishSession(){
+  stopTimer();
+  session.items.forEach(it => { it.checked = true; it.correct = isCorrect(it); });
+  session.finished = true;
+  const total = session.items.length;
+  const ok = session.items.filter(it => it.correct).length;
+  const pct = Math.round(ok / total * 100);
+  $("bigScore").textContent = `${ok} / ${total} — ${pct} %`;
+  $("verdict").textContent =
+    pct >= 80 ? "Solide. Passe en revue les erreurs ci-dessous et garde le rythme." :
+    pct >= 65 ? "Ça tient la route. Rejoue tes erreurs une ou deux fois pour verrouiller." :
+    "Reprends la fiche sur les sections faibles, puis rejoue les erreurs.";
+
+  const bars = $("bars");
+  bars.innerHTML = "";
+  Object.keys(SECTIONS).forEach(s => {
+    const items = session.items.filter(it => it.q.s == s);
+    if(!items.length) return;
+    const good = items.filter(it => it.correct).length;
+    const p = Math.round(good / items.length * 100);
+    const d = document.createElement("div");
+    d.className = "bar";
+    d.innerHTML = `<span>${SECTIONS[s]}</span><div class="track"><div style="width:${p}%"></div></div><span class="n">${good}/${items.length}</span>`;
+    bars.appendChild(d);
+  });
+
+  const wrong = session.items.filter(it => !it.correct);
+  $("replayWrong").hidden = !wrong.length;
+  $("missTitle").textContent = wrong.length ? `À revoir (${wrong.length})` : "Aucune erreur sur cette session.";
+  const box = $("misses");
+  box.innerHTML = "";
+  wrong.forEach(it => {
+    const q = it.q;
+    const yours = [...it.selected].map(d => q.o[it.perm[d]]);
+    const good = q.a.map(i => q.o[i]);
+    const d = document.createElement("div");
+    d.className = "miss";
+    d.innerHTML = `<p class="q">${q.q}</p>
+      <p class="a you">Ta réponse : ${yours.length ? yours.join(" / ") : "aucune"}</p>
+      <p class="a good">Bonne réponse : ${good.join(" / ")}</p>
+      <p class="e">${q.e}</p>`;
+    box.appendChild(d);
+  });
+
+  $("play").hidden = true;
+  $("result").hidden = false;
+  window.scrollTo({ top: 0 });
+}
+
+$("replayWrong").addEventListener("click", () => {
+  const wrong = session.items.filter(it => !it.correct).map(it => it.q);
+  mode = "train";
+  document.querySelectorAll(".mode").forEach(x => x.setAttribute("aria-pressed", x.dataset.mode === "train" ? "true" : "false"));
+  $("countRow").hidden = false;
+  startSession(wrong, 0);
+});
+$("again").addEventListener("click", goSetup);
+
+function goSetup(){
+  session = null;
+  $("play").hidden = true;
+  $("result").hidden = true;
+  $("setup").hidden = false;
+  window.scrollTo({ top: 0 });
+}
+
+buildSetup();
+</script>
+</body>
+</html>
